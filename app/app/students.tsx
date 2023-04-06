@@ -1,14 +1,12 @@
 import { Stack, useRouter } from 'expo-router'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { useQuery } from 'react-query'
 
-import { useStudentApi } from './api/student'
+import { useStudentGetList } from './api/student/useStudentGetList'
 import Button from './components/Button'
 import Student from './components/Student'
 
 export default function Page() {
-  const { list } = useStudentApi()
-  const { isLoading, error, data, refetch } = useQuery(['students'], list)
+  const { isLoading, error, data, refetch } = useStudentGetList({})
   const router = useRouter()
 
   const renderStudents = () => {

@@ -23,7 +23,7 @@ export class Factory {
   }
 
   public buildServiceFactory() {
-    return new ServiceFactory(this.buildRepositoryFactory())
+    return new ServiceFactory(this.buildRepositoryFactory(), this.buildProviderFactory())
   }
 
   public buildDataMapperFactory() {

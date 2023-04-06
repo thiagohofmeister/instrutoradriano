@@ -7,6 +7,9 @@ export class StudentRoutes extends RouteContract<StudentController> {
   public getRoutes(): RouteDto[] {
     const controller = this.getController()
 
-    return [new RouteDto(this.getFullEndpoint(), MethodEnum.GET, controller.get)]
+    return [
+      new RouteDto(this.getFullEndpoint(), MethodEnum.GET, controller.get),
+      new RouteDto(this.getFullEndpoint(), MethodEnum.POST, controller.post)
+    ]
   }
 }

@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 
-import StudentForm from '../components/NewStudentForm'
+import { NewStudentForm } from '../components/NewStudentForm/NewStudentForm'
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
       <Stack.Screen options={{ title: 'Cadastrar aluno' }} />
       <View style={styles.main}>
         <Text style={styles.title}>Cadastrar aluno</Text>
-        <StudentForm />
+        <NewStudentForm />
       </View>
     </View>
   )

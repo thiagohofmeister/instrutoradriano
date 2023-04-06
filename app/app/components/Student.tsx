@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { StudentModel } from '../api/student'
+import { StudentModel } from '../api/student/useStudent'
 
 const Student: React.FC<StudentProps> = ({ student }) => {
   return (

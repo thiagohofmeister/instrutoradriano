@@ -1,4 +1,3 @@
-import React from 'react'
 import { ButtonProps, Pressable, StyleSheet, Text } from 'react-native'
 
 export default function Button(props: ButtonProps) {

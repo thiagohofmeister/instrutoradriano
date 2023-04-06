@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { StudentModel } from '../api/student'
+import { StudentModel } from '../api/student/useStudent'
 
-const Student: React.FC<StudentProps> = ({ student }) => {
+const StudentData: React.FC<StudentProps> = ({ student }) => {
   return (
     <SafeAreaView style={styles.main}>
       <Text>
@@ -60,4 +60,4 @@ type StudentProps = {
   student: StudentModel
 }
 
-export default Student
+export default StudentData

@@ -1,7 +1,7 @@
 import { Control, useController } from 'react-hook-form'
 import { StyleSheet, Text, TextInput } from 'react-native'
 
-const Input = ({ control, name, label, isRequired }: InputProps) => {
+const Input = ({ control, name, label, isRequired, ...props }: InputProps) => {
   const {
     field,
     fieldState: { error }
@@ -19,7 +19,10 @@ const Input = ({ control, name, label, isRequired }: InputProps) => {
       <TextInput
         ref={field.ref}
         value={field.value}
-        onChangeText={value => field.onChange(value)}
+        onChangeText={value => {
+          props.onChange?.(value)
+          field.onChange(value)
+        }}
         onBlur={field.onBlur}
         style={styles.main}
       />
@@ -30,6 +33,7 @@ const Input = ({ control, name, label, isRequired }: InputProps) => {
 }
 
 type InputProps = {
+  onChange?: (value: string) => void
   control: Control<any>
   name: string
   label: string

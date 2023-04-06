@@ -11,10 +11,15 @@ export class StudentController extends BaseController {
   constructor() {
     super()
     this.get = this.get.bind(this)
+    this.post = this.post.bind(this)
   }
 
   public async get(req: CoreRequest, res: Response, next: NextFunction) {
     await this.responseHandler(res, next, this.getFacade(req).list(req.query), ResponseTypeEnum.OK)
+  }
+
+  public async post(req: CoreRequest, res: Response, next: NextFunction) {
+    await this.responseHandler(res, next, this.getFacade(req).create(req.body), ResponseTypeEnum.OK)
   }
 
   protected getFacade(req: CoreRequest): StudentFacade {
