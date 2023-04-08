@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { withSuspense } from '../../hocs/withSuspense'
 import { useEditContext } from '../../providers/EditProvider'
@@ -12,13 +12,18 @@ export const FormController = ({ controller }: FormControllerProps) => {
   const { hasChanges, saveChanges, discardChanges } = controller
 
   return (
-    <div style={styles.main}>
+    <View style={styles.main}>
       {hasChanges && (
-        <Button title="Desfazer modificações" disabled={isLoading} onPress={discardChanges} />
+        <Button
+          title="Desfazer modificações"
+          style={styles.button}
+          disabled={isLoading}
+          onPress={discardChanges}
+        />
       )}
 
-      <Button title="Salvar" onPress={saveChanges} />
-    </div>
+      <Button title="Salvar" style={styles.button} onPress={saveChanges} />
+    </View>
   )
 }
 
@@ -56,8 +61,12 @@ const styles = StyleSheet.create({
   main: {
     width: '100%',
     display: 'flex',
+    flexDirection: 'row',
     gap: 40,
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'center'
+  },
+  button: {
+    flex: 1
   }
 })

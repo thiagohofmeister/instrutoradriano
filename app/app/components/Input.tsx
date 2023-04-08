@@ -1,5 +1,5 @@
 import { Control, useController } from 'react-hook-form'
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 const Input = ({ control, name, label, isRequired, ...props }: InputProps) => {
   const {
@@ -14,7 +14,7 @@ const Input = ({ control, name, label, isRequired, ...props }: InputProps) => {
   })
 
   return (
-    <div>
+    <View>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         ref={field.ref}
@@ -28,7 +28,7 @@ const Input = ({ control, name, label, isRequired, ...props }: InputProps) => {
       />
 
       {error && <Text>{error.type === 'required' ? 'Campo obrigatório' : error.message}</Text>}
-    </div>
+    </View>
   )
 }
 

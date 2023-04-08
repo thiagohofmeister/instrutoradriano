@@ -1,12 +1,14 @@
 import { PropsWithChildren } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 const FormInputsContainer: React.FC<PropsWithChildren> = ({ children }) => {
-  return <div style={styles.main}>{children}</div>
+  return <View style={styles.main}>{children}</View>
 }
 
 const styles = StyleSheet.create({
-  main: {}
+  main: {
+    width: '100%'
+  }
 })
 
 export default FormInputsContainer

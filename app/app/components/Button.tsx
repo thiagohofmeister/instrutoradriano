@@ -1,12 +1,28 @@
-import { ButtonProps, Pressable, StyleSheet, Text } from 'react-native'
+import { useMemo } from 'react'
+import { ButtonProps as ButtonPropsRN, Pressable, StyleSheet, Text } from 'react-native'
 
 export default function Button(props: ButtonProps) {
   const { onPress, title = 'Save' } = props
+
+  const buttonStyles = useMemo(() => {
+    let s = styles.button
+
+    if (props.style) {
+      s = { ...s, ...props.style }
+    }
+
+    return s
+  }, [props.style])
+
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable style={buttonStyles} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   )
+}
+
+type ButtonProps = ButtonPropsRN & {
+  style?: any
 }
 
 const styles = StyleSheet.create({

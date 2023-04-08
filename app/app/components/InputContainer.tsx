@@ -35,13 +35,18 @@ const InputContainer: React.FC<InputContainerProps> = ({
         ...styles.labelTitle,
         color: '#1C211E',
         fontWeight: 'bold',
-        fontSize: 9,
-        top: 5
+        top: 3
       }
     }
 
     return styles.labelTitle
-  }, [isFocused])
+  }, [isFocused, value])
+
+  const labelTitleTextStyles = useMemo(() => {
+    return {
+      fontSize: isFocused || value ? 11 : 13
+    }
+  }, [isFocused, value])
 
   const inputStyles = useMemo(() => {
     if (isFocused || value) {
@@ -53,7 +58,7 @@ const InputContainer: React.FC<InputContainerProps> = ({
     }
 
     return styles.input
-  }, [isFocused])
+  }, [isFocused, value])
 
   return (
     <View style={styles.main}>
@@ -67,7 +72,9 @@ const InputContainer: React.FC<InputContainerProps> = ({
         <View style={styles.label}>
           {!!label && (
             <View style={labelTitleStyles}>
-              {label} {required && <span style={styles.required}>*</span>}
+              <Text style={labelTitleTextStyles}>
+                {label} {required && <Text style={styles.required}>*</Text>}
+              </Text>
             </View>
           )}
 
@@ -99,6 +106,7 @@ const styles = StyleSheet.create({
   main: {
     width: '100%',
     display: 'flex',
+    flex: 1,
     flexDirection: 'column'
   },
   container: {
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     position: 'relative'
   },
   prefix: {
-    background: '#E4E9E7',
+    backgroundColor: '#E4E9E7',
     color: '#1C211E',
     height: '100%',
     paddingHorizontal: 10,
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   suffix: {
-    background: '#E4E9E7',
+    backgroundColor: '#E4E9E7',
     color: '#1C211E',
     height: '100%',
     paddingHorizontal: 10,
@@ -144,7 +152,6 @@ const styles = StyleSheet.create({
   },
   required: {
     color: '#FF3358',
-    marginLeft: 3,
     fontSize: 13
   },
   labelTitle: {
@@ -152,7 +159,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     display: 'flex',
     alignItems: 'center',
-    fontSize: 13,
     transition: '0.3s all ease',
     left: 11,
     color: '#c1c1c1'
