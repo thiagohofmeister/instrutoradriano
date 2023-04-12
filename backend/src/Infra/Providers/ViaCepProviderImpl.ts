@@ -7,8 +7,7 @@ import { HttpMethod } from '../../Shared/Providers/Enum/HttpMethod'
 export class ViaCepProviderImpl extends ProviderContract<AxiosRequest> implements ViaCepProvider {
   async getOneByZipCode(zipCode: string) {
     const result = (
-      await this.request
-        .createInstance()
+      await this.getRequest()
         .withEndpoint(`/${zipCode}/json`)
         .send<ZipCodeGetOneResponse>(HttpMethod.GET)
     ).getBody()

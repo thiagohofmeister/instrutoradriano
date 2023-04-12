@@ -15,8 +15,8 @@ export class StudentValidator extends JoiSchemaValidatorContract {
       phone: Joi.string().required(),
       address: Joi.object({
         zipCode: Joi.string().required(),
-        street: Joi.string().required(),
-        city: Joi.string().required(),
+        street: Joi.string(),
+        city: Joi.string(),
         number: Joi.string().required(),
         complement: Joi.string()
       }).required()
