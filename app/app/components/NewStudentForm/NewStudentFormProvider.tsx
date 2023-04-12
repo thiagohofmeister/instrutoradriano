@@ -15,8 +15,6 @@ export const NewStudentFormProvider: React.FC<PropsWithChildren> = ({ children }
     phone: '',
     address: {
       zipCode: '',
-      street: '',
-      city: '',
       number: '',
       complement: ''
     }
