@@ -38,7 +38,7 @@ export default function Page() {
         {!!student && (
           <>
             <View style={styles.box}>
-              <Text style={styles.boxTitle}>Dados do aluno {student.id}</Text>
+              <Text style={styles.boxTitle}>Dados do aluno</Text>
 
               <StudentData student={student} />
             </View>
