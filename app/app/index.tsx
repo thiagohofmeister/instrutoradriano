@@ -11,7 +11,11 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ headerTransparent: true, title: '' }} />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+      />
       <View style={styles.main}>
         <Image source={LogoImage} style={styles.logo} />
 

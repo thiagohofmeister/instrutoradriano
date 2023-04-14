@@ -25,6 +25,7 @@ export type StudentModel = {
   phone: string
   address: {
     zipCode: string
+    street: string
     number: string
     complement: string
     distance?: number

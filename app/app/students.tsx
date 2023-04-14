@@ -1,7 +1,8 @@
 import { Stack, useRouter } from 'expo-router'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { useStudentGetList } from './api/student/useStudentGetList'
+import { AppHeader } from './components/AppHeader'
 import Button from './components/Button'
 import Student from './components/Student'
 
@@ -20,6 +21,7 @@ export default function Page() {
 
     return data.items.map(student => (
       <View style={styles.student} key={student.id}>
+        <AppHeader title="Meus alunos" />
         <Student student={student} />
       </View>
     ))
@@ -27,7 +29,6 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Meus alunos' }} />
       <View style={styles.button}>
         <Button
           title="Cadastrar aluno"

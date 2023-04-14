@@ -1,4 +1,4 @@
-import { useSearchParams } from 'expo-router'
+import { useRouter, useSearchParams } from 'expo-router'
 import { PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -9,7 +9,9 @@ import { EditProvider } from '../../providers/EditProvider'
 export const NewStudentFormProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { id } = useSearchParams<{ id?: string }>()
 
-  const [immutableData, setImmutableData] = useState<StudentModel>({
+  const router = useRouter()
+
+  const [immutableData, setImmutableData] = useState<StudentFormModel>({
     id,
     name: '',
     phone: '',
@@ -27,7 +29,7 @@ export const NewStudentFormProvider: React.FC<PropsWithChildren> = ({ children }
   const mutation = useStudentSave(id, {
     onSuccess: mutatedData => {
       if (!id && !!mutatedData?.id) {
-        console.log('Redirecionar para a listagem')
+        router.replace('/students')
       }
     }
   })
@@ -37,4 +39,15 @@ export const NewStudentFormProvider: React.FC<PropsWithChildren> = ({ children }
       {children}
     </EditProvider>
   )
+}
+
+type StudentFormModel = {
+  id: string | undefined
+  name: string
+  phone: string
+  address: {
+    zipCode: string
+    number: string
+    complement: string
+  }
 }

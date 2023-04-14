@@ -1,10 +1,10 @@
-import { Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
+import { AppHeader } from './components/AppHeader'
 
 export default function Page() {
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Minha agenda' }} />
+      <AppHeader title="Minha agenda" />
       <View style={styles.main}>
         <Text style={styles.title}>Minha agenda</Text>
       </View>
