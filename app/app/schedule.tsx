@@ -37,11 +37,7 @@ export default function Page() {
 
         {!!student && (
           <>
-            <View style={styles.box}>
-              <Text style={styles.boxTitle}>Dados do aluno</Text>
-
-              <StudentData student={student} />
-            </View>
+            <StudentData student={student} />
 
             <View style={styles.box}>
               <Text style={styles.boxTitle}>Dados da aula</Text>
