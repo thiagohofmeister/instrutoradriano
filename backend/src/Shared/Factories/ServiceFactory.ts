@@ -1,5 +1,6 @@
 import { EntityManager } from 'typeorm'
 import { ScheduleService } from '../../Domain/Schedule/ScheduleService'
+import { ScheduleValidator } from '../../Domain/Schedule/ScheduleValidator'
 
 import { StudentService } from '../../Domain/Student/StudentService'
 import { StudentValidator } from '../../Domain/Student/StudentValidator'
@@ -25,10 +26,12 @@ export class ServiceFactory {
 
   public buildScheduleService(manager?: EntityManager) {
     return new ScheduleService(
+      this.repositoryFactory.buildScheduleRepository(manager),
       parseFloat(process.env.APP_UNIT_CLASS_AMOUNT),
       parseInt(process.env.APP_UNIT_CLASS_MINUTES),
       this.buildStudentService(manager),
-      this.buildTaxService()
+      this.buildTaxService(),
+      new ScheduleValidator()
     )
   }
 

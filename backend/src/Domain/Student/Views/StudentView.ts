@@ -5,7 +5,7 @@ import { Student } from '../Models/Student'
 export class StudentView extends ViewContract<Student, StudentResponse> {
   protected renderOne(entity: Student): StudentResponse {
     return {
-      id: entity.getId(),
+      id: entity.getId().toHexString(),
       name: entity.getName(),
       phone: entity.getPhone(),
       address: {

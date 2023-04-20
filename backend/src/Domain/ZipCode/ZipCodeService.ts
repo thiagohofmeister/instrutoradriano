@@ -1,4 +1,4 @@
-import { CalculateDistanceDTO } from './dto/CalculateDistanceDTO'
+import { CalculateDistanceDTO } from './DTO/CalculateDistanceDTO'
 import { ZipCode } from './Models/ZipCode'
 import { GoogleDistanceMatrixProvider } from './Providers/GoogleDistanceMatrixProvider'
 import { ViaCepProvider } from './Providers/ViaCepProvider'

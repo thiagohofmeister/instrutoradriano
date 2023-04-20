@@ -1,4 +1,5 @@
 import { ViewContract } from '../../../Shared/Views/Contracts/ViewContract'
+import { IViewResponse } from '../../../Shared/Views/Interfaces/IViewResponse'
 import { ZipCode } from '../Models/ZipCode'
 
 export class ZipCodeView extends ViewContract<ZipCode, ZipCodeResponse> {
@@ -14,7 +15,7 @@ export class ZipCodeView extends ViewContract<ZipCode, ZipCodeResponse> {
   }
 }
 
-type ZipCodeResponse = {
+interface ZipCodeResponse extends IViewResponse {
   zipCode: string
   street: string
   complement: string

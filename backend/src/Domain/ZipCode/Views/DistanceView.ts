@@ -1,4 +1,5 @@
 import { ViewContract } from '../../../Shared/Views/Contracts/ViewContract'
+import { IViewResponse } from '../../../Shared/Views/Interfaces/IViewResponse'
 import { Distance } from '../Models/Distance'
 
 export class DistanceView extends ViewContract<Distance, DistanceResponse> {
@@ -11,7 +12,7 @@ export class DistanceView extends ViewContract<Distance, DistanceResponse> {
   }
 }
 
-type DistanceResponse = {
+interface DistanceResponse extends IViewResponse {
   originAddress: string
   destinationAddress: string
   distance: number

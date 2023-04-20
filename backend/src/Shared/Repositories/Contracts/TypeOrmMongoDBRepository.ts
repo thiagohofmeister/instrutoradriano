@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { FindManyOptions, FindOneOptions, MongoRepository, SelectQueryBuilder } from 'typeorm'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
@@ -20,7 +21,7 @@ export abstract class TypeOrmMongoDBRepositoryContract<
   }
 
   public async findOneByPrimaryColumn(id: string): Promise<TDomainEntity> {
-    const result = await this.repository.findOne({ where: { id } })
+    const result = await this.repository.findOne({ where: { _id: new ObjectId(id) } })
 
     if (!result) return null
 

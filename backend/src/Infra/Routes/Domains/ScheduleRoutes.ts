@@ -9,10 +9,11 @@ export class ScheduleRoutes extends RouteContract<ScheduleController> {
 
     return [
       new RouteDto(
-        this.getFullEndpoint('/calculate-price/:userId'),
+        this.getFullEndpoint('/calculate-price/:studentId'),
         MethodEnum.GET,
         controller.getPrice
-      )
+      ),
+      new RouteDto(this.getFullEndpoint(), MethodEnum.POST, controller.post)
     ]
   }
 }

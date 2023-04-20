@@ -1,3 +1,4 @@
+import { DataNotFoundException } from '../../Shared/Models/Exceptions/DataNotFoundException'
 import { IItemListModel } from '../../Shared/Models/Interfaces/IItemListModel'
 import { ZipCodeService } from '../ZipCode/ZipCodeService'
 import { StudentCreateDto } from './Dto/StudentCreateDto'
@@ -19,7 +20,11 @@ export class StudentService {
   }
 
   public async findOneById(id: string): Promise<Student> {
-    return this.studentRepository.findOneByPrimaryColumn(id)
+    const student = await this.studentRepository.findOneByPrimaryColumn(id)
+
+    if (!student) throw new DataNotFoundException('Student not found')
+
+    return student
   }
 
   public async create(body: StudentCreateDto): Promise<Student> {

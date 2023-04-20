@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { ObjectId } from 'mongodb'
 
 import { Address } from './Address'
 
@@ -7,12 +7,12 @@ export class Student {
     private name: string,
     private phone: string,
     private address: Address,
-    private id?: string
+    private id?: ObjectId
   ) {
-    if (!id) this.id = randomUUID()
+    if (!id) this.id = new ObjectId()
   }
 
-  public getId(): string {
+  public getId(): ObjectId {
     return this.id
   }
 

@@ -1,34 +1,54 @@
+import { ObjectId } from 'mongodb'
+import { Student } from '../../Student/Models/Student'
+
 export class Schedule {
   constructor(
-    private zipCode: string,
-    private street: string,
-    private complement: string,
-    private district: string,
-    private city: string,
-    private state: string
-  ) {}
-
-  public getState(): string {
-    return this.state
+    private student: Student,
+    private classInitialDate: Date,
+    private classFinalDate: Date,
+    private reservationInitialDate: Date,
+    private reservationFinalDate: Date,
+    private tax: number,
+    private amount: number,
+    private duration: number,
+    private id?: ObjectId
+  ) {
+    if (!id) this.id = new ObjectId()
   }
 
-  public getCity(): string {
-    return this.city
+  public getId(): ObjectId {
+    return this.id
   }
 
-  public getDistrict(): string {
-    return this.district
+  public getStudent(): Student {
+    return this.student
   }
 
-  public getComplement(): string {
-    return this.complement
+  public getClassInitialDate(): Date {
+    return this.classInitialDate
   }
 
-  public getStreet(): string {
-    return this.street
+  public getClassFinalDate(): Date {
+    return this.classFinalDate
   }
 
-  public getSchedule(): string {
-    return this.zipCode
+  public getReservationInitialDate(): Date {
+    return this.reservationInitialDate
+  }
+
+  public getReservationFinalDate(): Date {
+    return this.reservationFinalDate
+  }
+
+  public getTax(): number {
+    return this.tax
+  }
+
+  public getAmount(): number {
+    return this.amount
+  }
+
+  public getDuration(): number {
+    return this.duration
   }
 }

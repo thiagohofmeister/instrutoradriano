@@ -1,5 +1,5 @@
 import { FacadeContract } from '../../Shared/Facades/Contracts/FacadeContract'
-import { CalculateDistanceDTO } from './dto/CalculateDistanceDTO'
+import { CalculateDistanceDTO } from './DTO/CalculateDistanceDTO'
 import { Distance } from './Models/Distance'
 import { ZipCode } from './Models/ZipCode'
 

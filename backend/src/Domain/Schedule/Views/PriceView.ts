@@ -1,4 +1,5 @@
 import { ViewContract } from '../../../Shared/Views/Contracts/ViewContract'
+import { IViewResponse } from '../../../Shared/Views/Interfaces/IViewResponse'
 import { Price } from '../Models/Price'
 
 export class PriceView extends ViewContract<Price, PriceResponse> {
@@ -17,7 +18,7 @@ export class PriceView extends ViewContract<Price, PriceResponse> {
   }
 }
 
-type PriceResponse = {
+interface PriceResponse extends IViewResponse {
   unitAmount: number
   distance: number
   distanceDuration: number
