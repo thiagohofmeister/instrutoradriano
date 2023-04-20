@@ -18,6 +18,10 @@ export class StudentService {
     return this.studentRepository.findAll(filter)
   }
 
+  public async findOneById(id: string): Promise<Student> {
+    return this.studentRepository.findOneByPrimaryColumn(id)
+  }
+
   public async create(body: StudentCreateDto): Promise<Student> {
     await this.studentValidator.validateStudentCreatePayload(body)
 

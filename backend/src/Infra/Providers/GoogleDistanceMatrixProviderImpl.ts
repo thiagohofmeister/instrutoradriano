@@ -22,7 +22,6 @@ export class GoogleDistanceMatrixProviderImpl
         response.rows[0].elements[0].distance.value
       )
     } catch (e) {
-      console.log({ e })
       return e
     }
   }

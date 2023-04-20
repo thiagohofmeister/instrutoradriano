@@ -20,7 +20,7 @@ export abstract class TypeOrmMongoDBRepositoryContract<
   }
 
   public async findOneByPrimaryColumn(id: string): Promise<TDomainEntity> {
-    const result = await this.repository.findOne({ where: { _id: id } })
+    const result = await this.repository.findOne({ where: { id } })
 
     if (!result) return null
 

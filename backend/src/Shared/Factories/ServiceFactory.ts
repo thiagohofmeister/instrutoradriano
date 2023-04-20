@@ -1,7 +1,9 @@
 import { EntityManager } from 'typeorm'
+import { ScheduleService } from '../../Domain/Schedule/ScheduleService'
 
 import { StudentService } from '../../Domain/Student/StudentService'
 import { StudentValidator } from '../../Domain/Student/StudentValidator'
+import { TaxService } from '../../Domain/Tax/TaxService'
 import { ZipCodeService } from '../../Domain/ZipCode/ZipCodeService'
 import { TransactionalService } from '../Services/TransactionalService'
 import { ProviderFactory } from './ProviderFactory'
@@ -19,6 +21,19 @@ export class ServiceFactory {
       this.buildZipCodeService(),
       new StudentValidator()
     )
+  }
+
+  public buildScheduleService(manager?: EntityManager) {
+    return new ScheduleService(
+      parseFloat(process.env.APP_UNIT_CLASS_AMOUNT),
+      parseInt(process.env.APP_UNIT_CLASS_MINUTES),
+      this.buildStudentService(manager),
+      this.buildTaxService()
+    )
+  }
+
+  public buildTaxService(manager?: EntityManager) {
+    return new TaxService()
   }
 
   public buildZipCodeService() {
