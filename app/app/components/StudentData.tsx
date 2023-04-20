@@ -2,8 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { StudentModel } from '../api/student/useStudent'
+import { useUtils } from '../hooks/useUtils'
 
 const StudentData: React.FC<StudentProps> = ({ student }) => {
+  const { formatMinutes, formatDistance } = useUtils()
+
   return (
     <SafeAreaView style={styles.main}>
       <Text>
@@ -27,6 +30,14 @@ const StudentData: React.FC<StudentProps> = ({ student }) => {
           </Text>
           <Text>
             <Text style={styles.infoTitle}>Complemento:</Text> {student.address.complement || '-'}
+          </Text>
+          <Text>
+            <Text style={styles.infoTitle}>Distância:</Text>{' '}
+            {formatDistance(student.address.distance)}
+          </Text>
+          <Text>
+            <Text style={styles.infoTitle}>Tempo de deslocamento:</Text>{' '}
+            {formatMinutes(student.address.distanceDuration)}
           </Text>
         </View>
       )}

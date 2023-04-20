@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 15,
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 15
   }
 })

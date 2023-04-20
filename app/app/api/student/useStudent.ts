@@ -28,6 +28,7 @@ export type StudentModel = {
     street: string
     number: string
     complement: string
-    distance?: number
+    distance: number
+    distanceDuration: number
   }
 }

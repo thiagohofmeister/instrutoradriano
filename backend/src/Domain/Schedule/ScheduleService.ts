@@ -73,7 +73,7 @@ export class ScheduleService {
         const minutes = MinuteEnum[key]
 
         return new PriceOption(
-          MinuteEnumLabel[key],
+          MinuteEnumLabel[minutes],
           (this.unitClassAmount * minutes) / this.unitClassMinutes + tax,
           minutes
         )
