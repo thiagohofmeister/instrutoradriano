@@ -6,6 +6,7 @@ export class PriceView extends ViewContract<Price, PriceResponse> {
     return {
       unitAmount: entity.getUnitAmount(),
       distance: entity.getDistance(),
+      distanceDuration: entity.getDistanceDuration(),
       tax: entity.getTax(),
       options: entity.getOptions().map(option => ({
         description: option.getDescription(),
@@ -19,6 +20,7 @@ export class PriceView extends ViewContract<Price, PriceResponse> {
 type PriceResponse = {
   unitAmount: number
   distance: number
+  distanceDuration: number
   tax: number
   options: {
     description: string

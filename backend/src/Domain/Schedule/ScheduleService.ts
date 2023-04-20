@@ -40,7 +40,13 @@ export class ScheduleService {
         )
       })
 
-    return new Price(distance, tax, this.unitClassAmount, options)
+    return new Price(
+      distance,
+      student.getAddress().getDistanceDuration(),
+      tax,
+      this.unitClassAmount,
+      options
+    )
   }
 
   private async calculateTax(distance: number): Promise<number> {

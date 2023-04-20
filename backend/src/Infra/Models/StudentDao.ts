@@ -19,6 +19,7 @@ export class StudentDao {
     city: string
     complement: string
     distance: number
+    distanceDuration: number
   }
 
   constructor(
@@ -31,6 +32,7 @@ export class StudentDao {
       number: string
       city: string
       distance: number
+      distanceDuration: number
       complement: string
     }
   ) {

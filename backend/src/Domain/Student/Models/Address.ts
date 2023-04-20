@@ -5,6 +5,7 @@ export class Address {
     private city: string,
     private number: string,
     private distance: number,
+    private distanceDuration: number,
     private complement: string
   ) {}
 
@@ -22,6 +23,10 @@ export class Address {
 
   public getNumber(): string {
     return this.number
+  }
+
+  public getDistanceDuration(): number {
+    return this.distanceDuration
   }
 
   public getDistance(): number {

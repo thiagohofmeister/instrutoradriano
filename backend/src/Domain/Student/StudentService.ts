@@ -42,6 +42,7 @@ export class StudentService {
         zipCode.getCity(),
         body.address.number,
         distance.getDistance(),
+        distance.getDuration(),
         body.address.complement
       )
     )

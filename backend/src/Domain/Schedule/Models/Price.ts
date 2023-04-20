@@ -3,6 +3,7 @@ import { PriceOption } from './PriceOption'
 export class Price {
   constructor(
     private distance: number,
+    private distanceDuration: number,
     private tax: number,
     private unitAmount: number,
     private options: PriceOption[]
@@ -10,6 +11,10 @@ export class Price {
 
   getDistance(): number {
     return this.distance
+  }
+
+  getDistanceDuration(): number {
+    return this.distanceDuration
   }
 
   getTax(): number {

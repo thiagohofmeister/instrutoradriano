@@ -5,8 +5,16 @@ import { EntityDataMapperContract } from './Contracts/EntityDataMapperContract'
 
 export class StudentDataMapper extends EntityDataMapperContract<Student, StudentDao> {
   toDomainEntity(entity: StudentDao): Student {
-    const { city, complement, distance, number, street, zipCode } = entity.address
-    const address = new Address(zipCode, street, city, number, distance, complement)
+    const { city, complement, distance, number, street, zipCode, distanceDuration } = entity.address
+    const address = new Address(
+      zipCode,
+      street,
+      city,
+      number,
+      distance,
+      distanceDuration,
+      complement
+    )
     return new Student(entity.name, entity.phone, address, entity._id)
   }
 
@@ -17,7 +25,8 @@ export class StudentDataMapper extends EntityDataMapperContract<Student, Student
       street: domain.getAddress().getStreet(),
       zipCode: domain.getAddress().getZipCode(),
       complement: domain.getAddress().getComplement(),
-      distance: domain.getAddress().getDistance()
+      distance: domain.getAddress().getDistance(),
+      distanceDuration: domain.getAddress().getDistanceDuration()
     }
 
     return new StudentDao(domain.getId(), domain.getName(), domain.getPhone(), address)

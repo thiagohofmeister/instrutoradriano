@@ -14,6 +14,7 @@ export class StudentView extends ViewContract<Student, StudentResponse> {
         number: entity.getAddress().getNumber(),
         city: entity.getAddress().getCity(),
         distance: entity.getAddress().getDistance(),
+        distanceDuration: entity.getAddress().getDistanceDuration(),
         complement: entity.getAddress().getComplement()
       }
     }
@@ -30,6 +31,7 @@ export interface StudentResponse extends IViewResponse {
     number: string
     city: string
     distance: number
+    distanceDuration: number
     complement: string
   }
 }
