@@ -1,9 +1,10 @@
+import { ObjectId } from 'mongodb'
 import { Column, Entity, ObjectIdColumn } from 'typeorm'
 
 @Entity('student')
 export class StudentDao {
   @ObjectIdColumn()
-  _id: string
+  _id: ObjectId
 
   @Column()
   name: string
@@ -23,7 +24,7 @@ export class StudentDao {
   }
 
   constructor(
-    id: string,
+    id: ObjectId,
     name: string,
     phone: string,
     address: {

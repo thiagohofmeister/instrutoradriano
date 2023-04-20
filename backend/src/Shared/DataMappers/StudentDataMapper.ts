@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { Address } from '../../Domain/Student/Models/Address'
 import { Student } from '../../Domain/Student/Models/Student'
 import { StudentDao } from '../../Infra/Models/StudentDao'
@@ -15,7 +16,7 @@ export class StudentDataMapper extends EntityDataMapperContract<Student, Student
       distanceDuration,
       complement
     )
-    return new Student(entity.name, entity.phone, address, entity._id)
+    return new Student(entity.name, entity.phone, address, new ObjectId(entity._id))
   }
 
   toDaoEntity(domain: Student): StudentDao {

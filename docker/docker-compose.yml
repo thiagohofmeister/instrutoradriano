@@ -20,6 +20,9 @@ services:
       - 3001:80
     depends_on:
       - mongodb
+    environment:
+      - APP_PORT=80
+      - NODE_ENV=dev
 networks:
   default:
     external:

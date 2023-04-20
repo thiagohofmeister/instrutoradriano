@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "tsnd --transpile-only --respawn --inspect=0.0.0.0:9229 src/Infra/Api.ts",
     "test": "jest",
-    "build": "tsc",
-    "prod": "node ./Infra/Api.js"
+    "build": "rm -rf ./dist && tsc",
+    "prod": "node ./dist/Infra/Api.js"
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.28",
@@ -22,6 +22,7 @@
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "mongodb": "^4.8.0",
+    "redis": "^4.6.5",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7",
     "uuid": "^8.3.2"
@@ -37,6 +38,7 @@
     "@types/lodash": "^4.14.182",
     "@types/md5": "^2.3.2",
     "@types/node": "^18.0.1",
+    "@types/redis": "^4.0.11",
     "@types/uuid": "^8.3.4",
     "dotenv": "^16.0.1",
     "jest": "^28.1.2",
