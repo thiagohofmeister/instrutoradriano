@@ -1,4 +1,4 @@
-import { Stack, useNavigation, useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { Pressable, StyleSheet, Text } from 'react-native'
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ title }) => {

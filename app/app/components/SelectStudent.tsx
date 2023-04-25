@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { StudentModel } from '../api/student/useStudent'
 import { useStudentGetList } from '../api/student/useStudentGetList'
-import { SelectOptions, SelectContainer } from './SelectContainer'
+import { SelectContainer, SelectOptions } from './SelectContainer'
 
 export const SelectStudent: React.FC<SelectStudentProps> = ({ onChange }) => {
   const { data: students } = useStudentGetList({})

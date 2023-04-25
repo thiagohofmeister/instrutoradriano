@@ -1,10 +1,9 @@
+import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker, TimePicker } from '@mui/x-date-pickers'
-import { Platform, Text, View } from 'react-native'
-import { DateTime } from 'luxon'
 import MobileDatePicker from '@react-native-community/datetimepicker'
-import { StyleSheet } from 'react-native'
+import { DateTime } from 'luxon'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 
 export const DateContainer: React.FC<DateContainerProps> = ({ currentDate, onChange }) => {
   return (
