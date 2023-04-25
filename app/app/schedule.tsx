@@ -7,12 +7,12 @@ import { useScheduleCalculatePrice } from './api/schedule/useScheduleCalculatePr
 import { useScheduleSave } from './api/schedule/useScheduleSave'
 import { StudentModel } from './api/student/useStudent'
 import { AppHeader } from './components/AppHeader'
-import Button from './components/Button'
+import { Button } from './components/Button'
 import { ClassData } from './components/ClassData'
 import { DateContainer } from './components/DateContainer'
 import { SelectClassOption } from './components/SelectClassOption'
 import { SelectStudent } from './components/SelectStudent'
-import StudentData from './components/StudentData'
+import { StudentData } from './components/StudentData'
 
 export default function Page() {
   const [student, setStudent] = useState<StudentModel | null>(null)
@@ -60,26 +60,32 @@ export default function Page() {
 
         {!!student && (
           <>
-            <StudentData student={student} />
+            <View style={styles.box}>
+              <Text style={styles.boxTitle}>Dados do aluno</Text>
+
+              <View style={styles.stepContainer}>
+                <StudentData student={student} />
+              </View>
+            </View>
 
             {!!price && (
               <View style={styles.box}>
                 <Text style={styles.boxTitle}>Dados da aula</Text>
 
-                <View style={styles.dateContainer}>
+                <View style={styles.stepContainer}>
                   <DateContainer currentDate={date} onChange={setDate} />
                 </View>
 
-                <View style={styles.classOptionContainer}>
+                <View style={styles.stepContainer}>
                   <SelectClassOption onChange={setClassOption} price={price} />
                 </View>
 
                 {!!classOption && (
-                  <>
+                  <View style={styles.stepContainer}>
                     <ClassData price={price} classOption={classOption} />
 
                     <Button title="Agendar" disabled={savingSchedule} onPress={handlerScheduler} />
-                  </>
+                  </View>
                 )}
               </View>
             )}
@@ -106,17 +112,16 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
     padding: 15,
-    width: '100%'
+    width: '100%',
+    borderRadius: 7
   },
   boxTitle: {
-    fontSize: 16,
-    marginBottom: 15
+    fontSize: 16
   },
   form: {
     width: '100%'
   },
-  dateContainer: {},
-  classOptionContainer: {
+  stepContainer: {
     marginTop: 15
   }
 })

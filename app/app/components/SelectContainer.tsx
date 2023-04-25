@@ -3,10 +3,10 @@ import { FieldError, UseControllerReturn } from 'react-hook-form'
 import { StyleSheet, View } from 'react-native'
 
 import { useInputModel } from '../hooks/useInputModel'
-import Dropdown from './Dropdown'
+import { Dropdown } from './Dropdown'
 import { InputErrorMessage } from './InputErrorMessage'
 
-const SelectContainer: React.FC<SelectContainerProps> = ({
+export const SelectContainer: React.FC<SelectContainerProps> = ({
   label,
   value,
   select,
@@ -101,5 +101,3 @@ export type SelectOption = {
   value: string | null
   label: string
 }
-
-export default SelectContainer

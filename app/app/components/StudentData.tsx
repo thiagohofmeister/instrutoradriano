@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { StudentModel } from '../api/student/useStudent'
 import { useUtils } from '../hooks/useUtils'
 
-const StudentData: React.FC<StudentProps> = ({ student }) => {
+export const StudentData: React.FC<StudentProps> = ({ student }) => {
   const { formatMinutes, formatDistance } = useUtils()
 
   return (
@@ -47,10 +47,7 @@ const StudentData: React.FC<StudentProps> = ({ student }) => {
 const styles = StyleSheet.create({
   main: {
     display: 'flex',
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#333',
-    padding: 15
+    width: '100%'
   },
   address: {
     marginTop: 15
@@ -69,5 +66,3 @@ const styles = StyleSheet.create({
 type StudentProps = {
   student: StudentModel
 }
-
-export default StudentData

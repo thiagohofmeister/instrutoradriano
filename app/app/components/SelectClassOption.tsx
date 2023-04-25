@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { CalculatePriceModel, ClassOption } from '../api/schedule/useSchedule'
-import SelectContainer, { SelectOptions } from './SelectContainer'
+import { SelectOptions, SelectContainer } from './SelectContainer'
 
 export const SelectClassOption: React.FC<SelectClassOptionProps> = ({ price, onChange }) => {
   const classOptions = useMemo<SelectOptions>(() => {

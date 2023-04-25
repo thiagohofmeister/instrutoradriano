@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useInputModel } from '../hooks/useInputModel'
 import { InputErrorMessage } from './InputErrorMessage'
 
-const InputContainer: React.FC<InputContainerProps> = ({
+export const InputContainer: React.FC<InputContainerProps> = ({
   label,
   input,
   prefix,
@@ -177,5 +177,3 @@ interface InputContainerProps {
   hideErrorMessage?: boolean
   customError?: FieldError | undefined
 }
-
-export default InputContainer

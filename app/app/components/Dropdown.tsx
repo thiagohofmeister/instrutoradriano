@@ -10,7 +10,7 @@ interface Props {
   onSelect: (item: { label: string; value: string | null }) => void
 }
 
-const Dropdown: React.FC<Props> = ({ label, value, data, isRequired, onSelect }) => {
+export const Dropdown: React.FC<Props> = ({ label, value, data, isRequired, onSelect }) => {
   const DropdownButton = useRef<any>()
   const [visible, setVisible] = useState<boolean>(false)
   const [selected, setSelected] = useState<{ label: string; value: string | null } | undefined>(
@@ -154,5 +154,3 @@ const styles = StyleSheet.create({
     fontSize: 13
   }
 })
-
-export default Dropdown

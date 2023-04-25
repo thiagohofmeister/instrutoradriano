@@ -1,9 +1,7 @@
 import { useMemo } from 'react'
 import { ButtonProps as ButtonPropsRN, Pressable, StyleSheet, Text } from 'react-native'
 
-export default function Button(props: ButtonProps) {
-  const { onPress, title = 'Save' } = props
-
+export const Button: React.FC<ButtonProps> = ({ onPress, title = 'Save', ...props }) => {
   const buttonStyles = useMemo(() => {
     let s = styles.button
 

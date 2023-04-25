@@ -2,9 +2,9 @@ import { useController } from 'react-hook-form'
 
 import { StudentModel } from '../../api/student/useStudent'
 import { FormControllerDefault } from '../FormController/FormController'
-import FormGroup from '../FormGroup'
-import FormInputsContainer from '../FormInputsContainer'
-import InputContainer from '../InputContainer'
+import { FormGroup } from '../FormGroup'
+import { FormInputsContainer } from '../FormInputsContainer'
+import { InputContainer } from '../InputContainer'
 
 export const NewStudentFormInputs = () => {
   const name = useController<StudentModel, 'name'>({ name: 'name' })

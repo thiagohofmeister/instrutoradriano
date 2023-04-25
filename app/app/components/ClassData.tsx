@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   boxSubtitle: {
-    fontSize: 14,
+    fontSize: 16,
     marginBottom: 15
   }
 })

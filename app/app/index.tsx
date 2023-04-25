@@ -2,7 +2,7 @@ import { Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Image, StyleSheet, View } from 'react-native'
 
-import Button from './components/Button'
+import { Button } from './components/Button'
 
 const LogoImage = require('../assets/icon.png')
 

@@ -1,10 +1,10 @@
-import { Stack, useRouter } from 'expo-router'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useRouter } from 'expo-router'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { useStudentGetList } from './api/student/useStudentGetList'
 import { AppHeader } from './components/AppHeader'
-import Button from './components/Button'
-import Student from './components/Student'
+import { Button } from './components/Button'
+import { StudentData } from './components/StudentData'
 
 export default function Page() {
   const { isLoading, error, data, refetch } = useStudentGetList({})
@@ -21,14 +21,14 @@ export default function Page() {
 
     return data.items.map(student => (
       <View style={styles.student} key={student.id}>
-        <AppHeader title="Meus alunos" />
-        <Student student={student} />
+        <StudentData student={student} />
       </View>
     ))
   }
 
   return (
     <View style={styles.container}>
+      <AppHeader title="Meus alunos" />
       <View style={styles.button}>
         <Button
           title="Cadastrar aluno"
@@ -59,7 +59,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   student: {
-    marginBottom: 15
+    marginBottom: 15,
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: 7
   },
   button: {
     width: '100%',

@@ -10,6 +10,8 @@ export const DateContainer: React.FC<DateContainerProps> = ({ currentDate, onCha
   return (
     <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="pt-br">
       <View style={styles.main}>
+        <Text>Data:</Text>
+
         {Platform.OS !== 'web' && (
           <View style={styles.box}>
             <MobileDatePicker
@@ -31,7 +33,7 @@ export const DateContainer: React.FC<DateContainerProps> = ({ currentDate, onCha
         )}
 
         {Platform.OS === 'web' && (
-          <View style={styles.box}>
+          <View style={{ ...styles.box, ...styles.boxWeb }}>
             <DatePicker
               onChange={onChange}
               value={currentDate || DateTime.now()}
@@ -65,10 +67,17 @@ type DateContainerProps = {
 }
 
 const styles = StyleSheet.create({
-  main: {},
-  box: {
+  main: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center'
+  },
+  box: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  boxWeb: {
+    marginLeft: 15,
     gap: 15
   }
 })

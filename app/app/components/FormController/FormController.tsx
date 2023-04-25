@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { withSuspense } from '../../hocs/withSuspense'
 import { useEditContext } from '../../providers/EditProvider'
 import { useMutationContext } from '../../providers/MutationProvider'
-import Button from '../Button'
+import { Button } from '../Button'
 import { useFormController } from './useFormController'
 
 export const FormController = ({ controller }: FormControllerProps) => {
