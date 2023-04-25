@@ -5,27 +5,27 @@ import { Price } from '../Models/Price'
 export class PriceView extends ViewContract<Price, PriceResponse> {
   protected renderOne(entity: Price): PriceResponse {
     return {
-      unitAmount: entity.getUnitAmount(),
       distance: entity.getDistance(),
       distanceDuration: entity.getDistanceDuration(),
       tax: entity.getTax(),
       options: entity.getOptions().map(option => ({
-        description: option.getDescription(),
+        label: option.getLabel(),
+        duration: option.getDuration(),
         amount: option.getAmount(),
-        minutes: option.getMinutes()
+        totalAmount: option.getTotalAmount()
       }))
     }
   }
 }
 
 interface PriceResponse extends IViewResponse {
-  unitAmount: number
   distance: number
   distanceDuration: number
   tax: number
   options: {
-    description: string
-    minutes: number
+    label: string
+    duration: number
     amount: number
+    totalAmount: number
   }[]
 }

@@ -1,3 +1,4 @@
+import { ConfigurationFacade } from '../../Domain/Configuration/ConfigurationFacade'
 import { ScheduleFacade } from '../../Domain/Schedule/ScheduleFacade'
 import { StudentFacade } from '../../Domain/Student/StudentFacade'
 import { ZipCodeFacade } from '../../Domain/ZipCode/ZipCodeFacade'
@@ -12,6 +13,10 @@ export class FacadeFactory {
 
   public buildScheduleFacade() {
     return new ScheduleFacade(this.serviceFactory)
+  }
+
+  public buildConfigurationFacade() {
+    return new ConfigurationFacade(this.serviceFactory)
   }
 
   public buildZipCodeFacade() {

@@ -1,12 +1,11 @@
-import { PriceOption } from './PriceOption'
+import { ClassOption } from './ClassOption'
 
 export class Price {
   constructor(
     private distance: number,
     private distanceDuration: number,
     private tax: number,
-    private unitAmount: number,
-    private options: PriceOption[]
+    private options: ClassOption[]
   ) {}
 
   getDistance(): number {
@@ -21,11 +20,7 @@ export class Price {
     return this.tax
   }
 
-  getUnitAmount(): number {
-    return this.unitAmount
-  }
-
-  getOptions(): PriceOption[] {
+  getOptions(): ClassOption[] {
     return this.options
   }
 }

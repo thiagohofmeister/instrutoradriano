@@ -30,7 +30,7 @@ export class ScheduleController extends BaseController {
   }
 
   protected getFacade(req: CoreRequest): ScheduleFacade {
-    return Factory.getInstance().buildFacadeFactory().buildScheduleFacade()
+    return Factory.getInstance().buildFacadeFactory(req.configs).buildScheduleFacade()
   }
 
   protected getView() {

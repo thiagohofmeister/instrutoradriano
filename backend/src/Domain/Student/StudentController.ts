@@ -23,7 +23,7 @@ export class StudentController extends BaseController {
   }
 
   protected getFacade(req: CoreRequest): StudentFacade {
-    return Factory.getInstance().buildFacadeFactory().buildStudentFacade()
+    return Factory.getInstance().buildFacadeFactory(req.configs).buildStudentFacade()
   }
 
   protected getView() {

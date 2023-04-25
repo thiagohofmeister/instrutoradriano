@@ -7,7 +7,7 @@ export const useSchedule = () => {
     return useAxios(useAxiosInstance.get(`${endpoint}/calculate-price/${studentId}`))
   }
 
-  const create = async (data: any): Promise<ScheduleModel> => {
+  const create = async (data: ScheduleCreateModel): Promise<ScheduleModel> => {
     return useAxios(useAxiosInstance.post(endpoint, data))
   }
 
@@ -15,13 +15,13 @@ export const useSchedule = () => {
 }
 
 export type ClassOption = {
-  description: string
-  minutes: number
+  label: string
+  duration: number
   amount: number
+  totalAmoun: number
 }
 
 export type CalculatePriceModel = {
-  unitAmount: number
   distance: number
   distanceDuration: number
   tax: number
@@ -39,4 +39,10 @@ export type ScheduleModel = {
     complement: string
     distance?: number
   }
+}
+
+export type ScheduleCreateModel = {
+  studentId: string
+  classInitialDate: Date
+  duration: number
 }

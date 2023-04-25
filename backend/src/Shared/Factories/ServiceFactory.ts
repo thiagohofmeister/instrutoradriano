@@ -1,10 +1,11 @@
 import { EntityManager } from 'typeorm'
+import { ConfigurationService } from '../../Domain/Configuration/ConfigurationService'
+import { ConfigurationDictionary } from '../../Domain/Configuration/DTO/ConfigurationDictionaryDTO'
 import { ScheduleService } from '../../Domain/Schedule/ScheduleService'
 import { ScheduleValidator } from '../../Domain/Schedule/ScheduleValidator'
 
 import { StudentService } from '../../Domain/Student/StudentService'
 import { StudentValidator } from '../../Domain/Student/StudentValidator'
-import { TaxService } from '../../Domain/Tax/TaxService'
 import { ZipCodeService } from '../../Domain/ZipCode/ZipCodeService'
 import { TransactionalService } from '../Services/TransactionalService'
 import { ProviderFactory } from './ProviderFactory'
@@ -13,7 +14,8 @@ import { RepositoryFactory } from './RepositoryFactory'
 export class ServiceFactory {
   constructor(
     private readonly repositoryFactory: RepositoryFactory,
-    private readonly providerFactory: ProviderFactory
+    private readonly providerFactory: ProviderFactory,
+    private readonly configs?: ConfigurationDictionary
   ) {}
 
   public buildStudentService(manager?: EntityManager) {
@@ -26,27 +28,21 @@ export class ServiceFactory {
 
   public buildScheduleService(manager?: EntityManager) {
     return new ScheduleService(
+      this.configs,
       this.repositoryFactory.buildScheduleRepository(manager),
-      parseFloat(process.env.APP_UNIT_CLASS_AMOUNT),
-      parseInt(process.env.APP_UNIT_CLASS_MINUTES),
       this.buildStudentService(manager),
-      this.buildTaxService(),
+      this.buildConfigurationService(manager),
       new ScheduleValidator()
     )
   }
 
-  public buildTaxService(manager?: EntityManager) {
-    return new TaxService()
+  public buildConfigurationService(manager?: EntityManager) {
+    return new ConfigurationService(this.repositoryFactory.buildConfigurationRepository(manager))
   }
 
   public buildZipCodeService() {
     return new ZipCodeService(
-      {
-        street: process.env.APP_ADDRESS_STREET,
-        city: process.env.APP_ADDRESS_CITY,
-        number: process.env.APP_ADDRESS_NUMBER,
-        zipCode: process.env.APP_ADDRESS_ZIP_CODE
-      },
+      this.configs?.ORIGIN_ADDRESS,
       this.providerFactory.buildViaCepProvider(),
       this.providerFactory.buildGoogleDistanceMatrixProvider()
     )

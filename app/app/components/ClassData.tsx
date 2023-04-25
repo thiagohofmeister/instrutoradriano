@@ -10,10 +10,10 @@ export const ClassData: React.FC<ClassDataProps> = ({ price, classOption }) => {
       <Text style={styles.boxSubtitle}>Informações</Text>
 
       <Text>
-        <Text style={styles.infoTitle}>Duração:</Text> {formatMinutes(classOption.minutes * 60)}
+        <Text style={styles.infoTitle}>Duração:</Text> {formatMinutes(classOption.duration * 60)}
       </Text>
       <Text>
-        <Text style={styles.infoTitle}>Valor aula:</Text> {formatPrice(price.unitAmount)}
+        <Text style={styles.infoTitle}>Valor aula:</Text> {formatPrice(classOption.amount)}
       </Text>
       <Text>
         <Text style={styles.infoTitle}>Taxa deslocamento:</Text>{' '}

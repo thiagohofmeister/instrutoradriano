@@ -1,22 +1,20 @@
+import { ConfigurationService } from '../Configuration/ConfigurationService'
+import { ConfigurationDictionary } from '../Configuration/DTO/ConfigurationDictionaryDTO'
 import { Student } from '../Student/Models/Student'
 import { StudentService } from '../Student/StudentService'
-import { Tax } from '../Tax/Models/Tax'
-import { TaxService } from '../Tax/TaxService'
 import { ScheduleCreateDTO } from './DTO/ScheduleCreateDTO'
-import { MinuteEnum, MinuteEnumLabel } from './Enums/MinuteEnum'
+import { ClassOption } from './Models/ClassOption'
 import { Price } from './Models/Price'
-import { PriceOption } from './Models/PriceOption'
 import { Schedule } from './Models/Schedule'
 import { ScheduleRepository } from './Repositories/ScheduleRepository'
 import { ScheduleValidator } from './ScheduleValidator'
 
 export class ScheduleService {
   constructor(
+    readonly configs: ConfigurationDictionary,
     readonly scheduleRepository: ScheduleRepository,
-    readonly unitClassAmount: number,
-    readonly unitClassMinutes: number,
     readonly studentService: StudentService,
-    readonly taxService: TaxService,
+    readonly configurationService: ConfigurationService,
     readonly scheduleValidator: ScheduleValidator
   ) {}
 
@@ -26,10 +24,10 @@ export class ScheduleService {
     const student = await this.studentService.findOneById(body.studentId)
 
     const price = await this.calculatePriceByStudent(student)
-    const option = price.getOptions().find(option => option.getMinutes() === body.duration)
+    const option = price.getOptions().find(option => option.getDuration() === body.duration)
 
     const classFinalDate = new Date(body.classInitialDate)
-    classFinalDate.setMinutes(classFinalDate.getMinutes() + option.getMinutes())
+    classFinalDate.setMinutes(classFinalDate.getMinutes() + option.getDuration())
 
     const reservationInitialDate: Date = new Date(body.classInitialDate)
     reservationInitialDate.setSeconds(
@@ -41,7 +39,7 @@ export class ScheduleService {
 
     const tax: number = price.getTax()
     const amount: number = option.getAmount()
-    const duration: number = option.getMinutes()
+    const duration: number = option.getDuration()
 
     const schedule = new Schedule(
       student,
@@ -54,6 +52,8 @@ export class ScheduleService {
       duration
     )
 
+    await this.validateDuplicateSchedule(schedule)
+
     return this.scheduleRepository.create(schedule)
   }
 
@@ -64,35 +64,23 @@ export class ScheduleService {
   }
 
   private async calculatePriceByStudent(student: Student) {
-    const distance = student.getAddress().getDistance()
-    const tax = await this.calculateTax(distance)
+    const distance = Math.floor(student.getAddress().getDistance() / 1000)
+    const taxPerKm = this.configs.TAX_PER_KM
+    const tax = distance > 3 ? distance * taxPerKm : 0
 
-    const options = Object.keys(MinuteEnum)
-      .filter(m => !!m.replace(/\d+/, ''))
-      .map(key => {
-        const minutes = MinuteEnum[key]
-
-        return new PriceOption(
-          MinuteEnumLabel[minutes],
-          (this.unitClassAmount * minutes) / this.unitClassMinutes + tax,
-          minutes
-        )
-      })
+    const options = this.configs.CLASS_OPTIONS.map(option =>
+      new ClassOption(option.label, option.amount, option.duration).addTax(tax)
+    )
 
     return new Price(
-      distance,
+      student.getAddress().getDistance(),
       student.getAddress().getDistanceDuration(),
       tax,
-      this.unitClassAmount,
       options
     )
   }
 
-  private async calculateTax(distance: number): Promise<number> {
-    const taxes: Tax[] = await (await this.taxService.list()).items
-
-    return (
-      taxes.find(tax => distance >= tax.getInitial() && distance <= tax.getFinal())?.getPrice() || 0
-    )
+  private async validateDuplicateSchedule(schedule: Schedule) {
+    // TODO: Check duplicates
   }
 }

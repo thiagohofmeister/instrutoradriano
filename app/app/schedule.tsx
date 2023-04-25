@@ -1,10 +1,11 @@
+import { useRouter } from 'expo-router'
 import { DateTime } from 'luxon'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ClassOption } from './api/schedule/useSchedule'
 import { useScheduleCalculatePrice } from './api/schedule/useScheduleCalculatePrice'
+import { useScheduleSave } from './api/schedule/useScheduleSave'
 import { StudentModel } from './api/student/useStudent'
-import { useStudentGetList } from './api/student/useStudentGetList'
 import { AppHeader } from './components/AppHeader'
 import Button from './components/Button'
 import { ClassData } from './components/ClassData'
@@ -19,9 +20,29 @@ export default function Page() {
   const [classOption, setClassOption] = useState<ClassOption | null>(null)
   const [date, setDate] = useState<DateTime | null>(DateTime.now())
 
-  const { data: price, mutateAsync: calculatePrice } = useScheduleCalculatePrice()
+  const router = useRouter()
 
-  const handlerScheduler = useCallback(() => {}, [student, classOption, date])
+  const { data: price, mutateAsync: calculatePrice } = useScheduleCalculatePrice()
+  const { data: schedule, mutateAsync: saveSchedule, isLoading: savingSchedule } = useScheduleSave()
+
+  const handlerScheduler = useCallback(() => {
+    if (!date || !classOption || !student) {
+      return
+    }
+
+    saveSchedule(
+      {
+        classInitialDate: date.toJSDate(),
+        duration: classOption.duration,
+        studentId: student.id!
+      },
+      {
+        onSuccess: () => {
+          router.replace('calendar')
+        }
+      }
+    )
+  }, [student, classOption, date])
 
   useEffect(() => {
     if (!student) return
@@ -55,7 +76,7 @@ export default function Page() {
                   <>
                     <ClassData price={price} classOption={classOption} />
 
-                    <Button title="Agendar" onPress={handlerScheduler} />
+                    <Button title="Agendar" disabled={savingSchedule} onPress={handlerScheduler} />
                   </>
                 )}
               </View>

@@ -35,7 +35,7 @@ export class ZipCodeController extends BaseController {
   }
 
   protected getFacade(req: CoreRequest): ZipCodeFacade {
-    return Factory.getInstance().buildFacadeFactory().buildZipCodeFacade()
+    return Factory.getInstance().buildFacadeFactory(req.configs).buildZipCodeFacade()
   }
 
   protected getView() {

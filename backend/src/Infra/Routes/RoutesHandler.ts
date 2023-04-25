@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
+import { LoadConfigs } from '../../Shared/Middlewares/LoadConfigs'
 
 import { AuthRouteContract } from './Contracts/AuthRouteContract'
 import { RouteContract } from './Contracts/RouteContract'
@@ -55,7 +56,7 @@ export class RoutesHandler {
   }
 
   private getDefaultMiddlewares() {
-    return []
+    return [new LoadConfigs().execute]
   }
 
   public getRouter() {
