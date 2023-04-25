@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { StudentModel } from '../api/student/useStudent'
 
 const Student: React.FC<StudentProps> = ({ student }) => {
   return (
-    <SafeAreaView style={styles.main}>
+    <View style={styles.main}>
       <Text>
         <Text style={styles.infoTitle}>Nome:</Text> {student.name}
       </Text>
@@ -30,7 +29,7 @@ const Student: React.FC<StudentProps> = ({ student }) => {
           </Text>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   )
 }
 

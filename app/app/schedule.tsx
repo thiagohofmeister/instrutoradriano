@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { DateTime } from 'luxon'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ClassOption } from './api/schedule/useSchedule'
 import { useScheduleCalculatePrice } from './api/schedule/useScheduleCalculatePrice'
@@ -10,7 +10,6 @@ import { AppHeader } from './components/AppHeader'
 import Button from './components/Button'
 import { ClassData } from './components/ClassData'
 import { DateContainer } from './components/DateContainer'
-import FormGroup from './components/FormGroup'
 import { SelectClassOption } from './components/SelectClassOption'
 import { SelectStudent } from './components/SelectStudent'
 import StudentData from './components/StudentData'
@@ -18,7 +17,9 @@ import StudentData from './components/StudentData'
 export default function Page() {
   const [student, setStudent] = useState<StudentModel | null>(null)
   const [classOption, setClassOption] = useState<ClassOption | null>(null)
-  const [date, setDate] = useState<DateTime | null>(DateTime.now())
+  const [date, setDate] = useState<DateTime | null>(
+    DateTime.now().setZone(undefined, { keepLocalTime: true })
+  )
 
   const router = useRouter()
 
@@ -65,11 +66,12 @@ export default function Page() {
               <View style={styles.box}>
                 <Text style={styles.boxTitle}>Dados da aula</Text>
 
-                <View>
-                  <FormGroup>
-                    <DateContainer onChange={setDate} />
-                    <SelectClassOption onChange={setClassOption} price={price} />
-                  </FormGroup>
+                <View style={styles.dateContainer}>
+                  <DateContainer currentDate={date} onChange={setDate} />
+                </View>
+
+                <View style={styles.classOptionContainer}>
+                  <SelectClassOption onChange={setClassOption} price={price} />
                 </View>
 
                 {!!classOption && (
@@ -109,5 +111,12 @@ const styles = StyleSheet.create({
   boxTitle: {
     fontSize: 16,
     marginBottom: 15
+  },
+  form: {
+    width: '100%'
+  },
+  dateContainer: {},
+  classOptionContainer: {
+    marginTop: 15
   }
 })

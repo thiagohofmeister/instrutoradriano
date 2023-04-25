@@ -18,7 +18,7 @@ export const SelectClassOption: React.FC<SelectClassOptionProps> = ({ price, onC
 
   return (
     <SelectContainer
-      label="Escolha o aluno"
+      label="Escolha a opção de aula"
       options={classOptions}
       onChange={handlerClassSelect}
       isRequired

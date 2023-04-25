@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
 export const useAxiosInstance = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:3001'
+  baseURL: process.env.API_URL || 'http://192.168.68.116:3001'
 })
 
 export const useAxios = async (cb: any) => {
