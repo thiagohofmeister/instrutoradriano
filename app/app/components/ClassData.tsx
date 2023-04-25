@@ -20,7 +20,7 @@ export const ClassData: React.FC<ClassDataProps> = ({ price, classOption }) => {
         {price.tax ? formatPrice(price.tax) : `Grátis`}
       </Text>
       <Text>
-        <Text style={styles.infoTitle}>Total:</Text> {formatPrice(classOption.amount)}
+        <Text style={styles.infoTitle}>Total:</Text> {formatPrice(classOption.totalAmount)}
       </Text>
     </View>
   )

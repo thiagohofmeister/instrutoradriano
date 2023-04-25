@@ -18,7 +18,7 @@ export type ClassOption = {
   label: string
   duration: number
   amount: number
-  totalAmoun: number
+  totalAmount: number
 }
 
 export type CalculatePriceModel = {
