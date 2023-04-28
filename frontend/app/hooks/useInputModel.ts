@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { DefaultInputProps } from '../components/BaseInput'
+import { FieldError, UseControllerReturn } from 'react-hook-form'
 
 export const useInputModel = <Value, OnChange, Props>(
   props: InputModelProps<Value, OnChange> & Props
@@ -15,7 +15,11 @@ export const useInputModel = <Value, OnChange, Props>(
   }
 }
 
-type InputModelProps<Value, OnChange> = DefaultInputProps & {
+type InputModelProps<Value, OnChange> = {
+  isLoading?: boolean
+  controller?: UseControllerReturn<any, any>
+  hideErrorMessage?: boolean
+  customError?: FieldError | undefined
   value?: Value
   onChange?: OnChange
 }

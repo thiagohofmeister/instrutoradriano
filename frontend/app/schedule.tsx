@@ -25,7 +25,7 @@ export default function Page() {
   const router = useRouter()
 
   const { data: price, mutateAsync: calculatePrice } = useScheduleCalculatePrice()
-  const { data: schedule, mutateAsync: saveSchedule, isLoading: savingSchedule } = useScheduleSave()
+  const { mutateAsync: saveSchedule, isLoading: savingSchedule } = useScheduleSave()
 
   const handlerScheduler = useCallback(() => {
     if (!date || !classOption || !student) {
@@ -34,7 +34,6 @@ export default function Page() {
 
     saveSchedule(
       {
-        // classInitialDate: date.toJSDate(),
         classInitialDate: new Date(),
         duration: classOption.duration,
         studentId: student.id!
