@@ -6,7 +6,7 @@ import { ScheduleCreateDTO } from './DTO/ScheduleCreateDTO'
 import { ClassOption } from './Models/ClassOption'
 import { Price } from './Models/Price'
 import { Schedule } from './Models/Schedule'
-import { ScheduleRepository } from './Repositories/ScheduleRepository'
+import { ScheduleFilter, ScheduleRepository } from './Repositories/ScheduleRepository'
 import { ScheduleValidator } from './ScheduleValidator'
 
 export class ScheduleService {
@@ -17,6 +17,10 @@ export class ScheduleService {
     readonly configurationService: ConfigurationService,
     readonly scheduleValidator: ScheduleValidator
   ) {}
+
+  public async list(filter: ScheduleFilter) {
+    return this.scheduleRepository.findAll(filter)
+  }
 
   public async create(body: ScheduleCreateDTO): Promise<Schedule> {
     await this.scheduleValidator.validateScheduleCreatePayload(body)
@@ -43,7 +47,7 @@ export class ScheduleService {
 
     const schedule = new Schedule(
       student,
-      body.classInitialDate,
+      new Date(body.classInitialDate),
       classFinalDate,
       reservationInitialDate,
       reservationFinalDate,

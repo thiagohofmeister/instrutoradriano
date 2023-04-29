@@ -1,5 +1,7 @@
 import { useCallback } from 'react'
 
+import { Address } from '../api/models'
+
 export const useUtils = () => {
   const formatPrice = useCallback((price: number) => {
     return Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(price)
@@ -10,6 +12,11 @@ export const useUtils = () => {
       hour: '2-digit',
       minute: '2-digit'
     })}`
+  }, [])
+
+  const formatFullAddress = useCallback((address: Address) => {
+    const complement = address.complement ? `, ${address.complement}` : ''
+    return `${address.street}, ${address.number}${complement} - ${address.city}, ${address.zipCode}`
   }, [])
 
   const formatMinutes = useCallback((seconds: number) => {
@@ -42,6 +49,7 @@ export const useUtils = () => {
     formatDate,
     formatPrice,
     formatMinutes,
-    formatDistance
+    formatDistance,
+    formatFullAddress
   }
 }

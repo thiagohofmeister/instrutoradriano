@@ -1,26 +1,65 @@
-import { useMemo } from 'react'
-import { ButtonProps as ButtonPropsRN, Pressable, StyleSheet, Text } from 'react-native'
+import { useCallback, useMemo } from 'react'
+import { ButtonProps as ButtonPropsRN, Pressable, StyleSheet, Text, ViewStyle } from 'react-native'
 
-export const Button: React.FC<ButtonProps> = ({ onPress, title = 'Save', ...props }) => {
-  const buttonStyles = useMemo(() => {
-    let s = styles.button
+export const Button: React.FC<ButtonProps> = ({
+  type = 'default',
+  onPress,
+  title = 'Save',
+  isDisabled,
+  isActive,
+  ...props
+}) => {
+  const getColor = useCallback(
+    (type: string): { color: string; backgroundColor: string } => {
+      const options = {
+        default: {
+          backgroundColor: '#000',
+          color: '#FFF'
+        },
+        disabled: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#FFF'
+        },
+        active: {
+          backgroundColor: 'green',
+          color: '#FFF'
+        }
+      }
 
-    if (props.style) {
-      s = { ...s, ...props.style }
-    }
+      if (isDisabled) return options['disabled']
+      if (isActive) return options['active']
 
-    return s
-  }, [props.style])
+      return options[type]
+    },
+    [type, isActive, isDisabled]
+  )
+
+  const buttonStyles = useMemo(
+    () => ({
+      backgroundColor: getColor(type).backgroundColor
+    }),
+    [type, isActive, isDisabled]
+  )
+
+  const textStyles = useMemo(
+    () => ({
+      color: getColor(type).color
+    }),
+    [type, isActive, isDisabled]
+  )
 
   return (
-    <Pressable style={buttonStyles} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
+    <Pressable style={[styles.button, props.style, buttonStyles]} onPress={onPress}>
+      <Text style={[styles.text, textStyles]}>{title}</Text>
     </Pressable>
   )
 }
 
 type ButtonProps = ButtonPropsRN & {
-  style?: any
+  style?: ViewStyle
+  type?: 'default' | 'info' | 'save'
+  isActive?: boolean
+  isDisabled?: boolean
 }
 
 const styles = StyleSheet.create({
@@ -29,14 +68,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 15,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'black'
   },
   text: {
-    fontSize: 16,
-    lineHeight: 21,
+    fontSize: 14,
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white'

@@ -1,6 +1,6 @@
 import { Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { Image, StyleSheet, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, View } from 'react-native'
 
 import { Button } from './components/Button'
 
@@ -19,26 +19,32 @@ export default function Page() {
       <View style={styles.main}>
         <Image source={LogoImage} style={styles.logo} />
 
-        <Button
-          title="Minha agenda"
-          onPress={() => {
-            router.push('/calendar')
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Minha agenda"
+            onPress={() => {
+              router.push('/calendar')
+            }}
+          />
+        </View>
 
-        <Button
-          title="Meus alunos"
-          onPress={() => {
-            router.push('/students')
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Meus alunos"
+            onPress={() => {
+              router.push('/students')
+            }}
+          />
+        </View>
 
-        <Button
-          title="Agendar aula"
-          onPress={() => {
-            router.push('/schedule')
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Agendar aula"
+            onPress={() => {
+              router.push('/schedule')
+            }}
+          />
+        </View>
       </View>
 
       <StatusBar />
@@ -59,6 +65,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginHorizontal: 'auto',
     gap: 10
+  },
+  buttonContainer: {
+    width: Dimensions.get('window').width / 2
   },
   logo: {
     width: 200,

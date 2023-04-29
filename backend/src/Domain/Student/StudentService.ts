@@ -42,7 +42,7 @@ export class StudentService {
       body.name,
       body.phone,
       new Address(
-        zipCode.getCity(),
+        zipCode.getZipCode(),
         zipCode.getStreet(),
         zipCode.getCity(),
         body.address.number,

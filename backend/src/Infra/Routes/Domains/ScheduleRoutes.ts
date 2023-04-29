@@ -13,7 +13,8 @@ export class ScheduleRoutes extends RouteContract<ScheduleController> {
         MethodEnum.GET,
         controller.getPrice
       ),
-      new RouteDto(this.getFullEndpoint(), MethodEnum.POST, controller.post)
+      new RouteDto(this.getFullEndpoint(), MethodEnum.POST, controller.post),
+      new RouteDto(this.getFullEndpoint(), MethodEnum.GET, controller.get)
     ]
   }
 }

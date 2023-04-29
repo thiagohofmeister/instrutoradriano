@@ -116,7 +116,7 @@ export const InputContainer: React.FC<InputContainerProps> = ({
 
 const styles = StyleSheet.create({
   main: {
-    width: '100%',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column'
   },

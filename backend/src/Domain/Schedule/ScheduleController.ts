@@ -4,15 +4,20 @@ import { BaseController } from '../../Shared/Controllers/BaseController'
 import { ResponseTypeEnum } from '../../Shared/Enums/ResponseTypeEnum'
 import { Factory } from '../../Shared/Factories/Factory'
 import { CoreRequest } from '../../Shared/Models/Request/CoreRequest'
+import { ScheduleFacade } from './ScheduleFacade'
 import { PriceView } from './Views/PriceView'
 import { ScheduleView } from './Views/ScheduleView'
-import { ScheduleFacade } from './ScheduleFacade'
 
 export class ScheduleController extends BaseController {
   constructor() {
     super()
+    this.get = this.get.bind(this)
     this.post = this.post.bind(this)
     this.getPrice = this.getPrice.bind(this)
+  }
+
+  public async get(req: CoreRequest, res: Response, next: NextFunction) {
+    await this.responseHandler(res, next, this.getFacade(req).list(req.query), ResponseTypeEnum.OK)
   }
 
   public async post(req: CoreRequest, res: Response, next: NextFunction) {

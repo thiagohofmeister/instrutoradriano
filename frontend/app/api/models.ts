@@ -17,3 +17,13 @@ export interface DefaultQueryParams {
 export interface QueryParamsFilter {
   [key: string]: string
 }
+
+export interface Address {
+  zipCode: string
+  street: string
+  number: string
+  city: string
+  distance: number
+  distanceDuration: number
+  complement: string
+}

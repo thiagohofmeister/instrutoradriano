@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { FindManyOptions, FindOneOptions, MongoRepository, SelectQueryBuilder } from 'typeorm'
+import { FindOneOptions, MongoRepository, SelectQueryBuilder } from 'typeorm'
+import { MongoFindManyOptions } from 'typeorm/find-options/mongodb/MongoFindManyOptions'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { EntityDataMapperContract } from '../../DataMappers/Contracts/EntityDataMapperContract'
@@ -95,8 +96,8 @@ export abstract class TypeOrmMongoDBRepositoryContract<
 
   public applyPaginator(
     filters: IFilterDefault,
-    query: FindManyOptions<TDaoEntity>
-  ): FindManyOptions<TDaoEntity> {
+    query: MongoFindManyOptions<TDaoEntity>
+  ): MongoFindManyOptions<TDaoEntity> {
     const skip = (this.getPage(filters) - 1) * this.getSize(filters)
     const take = this.getSize(filters)
 
@@ -111,15 +112,15 @@ export abstract class TypeOrmMongoDBRepositoryContract<
 
   protected customToGetAll(
     filters: IFilterDefault,
-    query: FindManyOptions<TDaoEntity>
-  ): FindManyOptions<TDaoEntity> {
+    query: MongoFindManyOptions<TDaoEntity>
+  ): MongoFindManyOptions<TDaoEntity> {
     return query
   }
 
   protected applySearch(
     filters: IFilterDefault,
-    query: FindManyOptions<TDaoEntity>
-  ): FindManyOptions<TDaoEntity> {
+    query: MongoFindManyOptions<TDaoEntity>
+  ): MongoFindManyOptions<TDaoEntity> {
     if (!filters.query) {
       return query
     }
@@ -189,11 +190,11 @@ export abstract class TypeOrmMongoDBRepositoryContract<
   }
 
   protected async getMany(
-    query: SelectQueryBuilder<TDaoEntity> | FindManyOptions<TDaoEntity>
+    query: SelectQueryBuilder<TDaoEntity> | MongoFindManyOptions<TDaoEntity>
   ): Promise<IItemListModel<TDomainEntity>> {
     return {
       items: this.dataMapper.toDomainEntityMany(
-        await this.repository.find(query as FindManyOptions<TDaoEntity>)
+        await this.repository.find(query as MongoFindManyOptions<TDaoEntity>)
       ),
       total: await this.repository.count(query)
     }

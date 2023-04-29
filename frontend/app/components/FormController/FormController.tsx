@@ -14,15 +14,19 @@ export const FormController = ({ controller }: FormControllerProps) => {
   return (
     <View style={styles.main}>
       {hasChanges && (
-        <Button
-          title="Desfazer modificações"
-          style={styles.button}
-          disabled={isLoading}
-          onPress={discardChanges}
-        />
+        <View style={{ flex: 1 }}>
+          <Button
+            title="Desfazer modificações"
+            style={styles.button}
+            disabled={isLoading}
+            onPress={discardChanges}
+          />
+        </View>
       )}
 
-      <Button title="Salvar" style={styles.button} onPress={saveChanges} />
+      <View style={{ flex: 1 }}>
+        <Button title="Salvar" style={styles.button} onPress={saveChanges} />
+      </View>
     </View>
   )
 }
@@ -60,11 +64,10 @@ export type FormControllerProps = {
 const styles = StyleSheet.create({
   main: {
     width: '100%',
-    display: 'flex',
+    marginBottom: 15,
     flexDirection: 'row',
-    gap: 40,
     alignItems: 'center',
-    justifyContent: 'center'
+    gap: 15
   },
   button: {}
 })
