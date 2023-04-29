@@ -1,0 +1,13 @@
+# fly.toml app configuration file generated for instrutoradriano on 2023-04-29T01:19:04-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "instrutoradriano"
+primary_region = "gru"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
