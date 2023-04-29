@@ -56,7 +56,7 @@ export default function Page() {
       <AppHeader title="Agendar aula" />
       <ScrollView style={styles.main}>
         <View style={styles.box}>
-          <SelectStudent onChange={setStudent} />
+          <SelectStudent value={student} onChange={setStudent} />
         </View>
 
         {!!student && (
@@ -78,7 +78,7 @@ export default function Page() {
                 </View>
 
                 <View style={styles.stepContainer}>
-                  <SelectClassOption onChange={setClassOption} price={price} />
+                  <SelectClassOption value={classOption} onChange={setClassOption} price={price} />
                 </View>
 
                 {!!classOption && (
