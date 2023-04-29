@@ -1,10 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { useCallback } from 'react'
+import { Linking, StyleSheet, Text, View } from 'react-native'
 
 import { ScheduleModel } from '../api/schedule/useSchedule'
 import { useUtils } from '../hooks/useUtils'
+import { Button } from './Button'
 
 export const ScheduleDataResume: React.FC<ScheduleDataResumeProps> = ({ schedule }) => {
   const { formatDate, formatFullAddress, formatPrice, formatMinutes } = useUtils()
+
+  const route = useCallback(() => {
+    Linking.openURL(
+      `http://maps.google.co.in/maps?q=${formatFullAddress(schedule.student.address)}`
+    )
+  }, [])
 
   return (
     <View style={styles.main}>
@@ -33,6 +41,8 @@ export const ScheduleDataResume: React.FC<ScheduleDataResumeProps> = ({ schedule
       <Text>
         <Text style={styles.infoTitle}>Preço:</Text> {formatPrice(schedule.amount)}
       </Text>
+
+      <Button title="Ir até o aluno" onPress={() => route()} />
     </View>
   )
 }
