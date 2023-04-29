@@ -12,7 +12,7 @@ export const ScheduleDataResume: React.FC<ScheduleDataResumeProps> = ({ schedule
     Linking.openURL(
       `http://maps.google.co.in/maps?q=${formatFullAddress(schedule.student.address)}`
     )
-  }, [])
+  }, [schedule.student.address])
 
   return (
     <View style={styles.main}>
