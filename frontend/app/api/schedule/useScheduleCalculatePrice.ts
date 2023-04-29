@@ -20,8 +20,6 @@ export const useScheduleCalculatePrice = (
   const mutation = useMutation<CalculatePriceModel, unknown, string>(mutationKey, mutationFn, {
     onError: () => {},
     onSuccess: (data, variables, context) => {
-      console.log('Sucesso ao calcular preços')
-
       options?.onSuccess?.(data, variables, context)
     }
   })

@@ -44,7 +44,6 @@ export const SelectContainer: React.FC<SelectContainerProps> = ({
 
   const onSelect = useCallback(
     (value: string | number) => {
-      console.log({ value })
       onChange?.(value)
     },
     [onChange]

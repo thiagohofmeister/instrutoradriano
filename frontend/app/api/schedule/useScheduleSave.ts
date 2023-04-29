@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { useMutation, UseMutationOptions } from 'react-query'
+import { UseMutationOptions, useMutation } from 'react-query'
 
 import { ScheduleCreateModel, ScheduleModel, useSchedule } from './useSchedule'
 
@@ -15,8 +15,6 @@ export const useScheduleSave = (
   const mutation = useMutation<ScheduleModel, unknown, TVariables>(mutationKey, mutationFn, {
     onError: () => {},
     onSuccess: (data, variables, context) => {
-      console.log('Sucesso ao agendar aula')
-
       options?.onSuccess?.(data, variables, context)
     }
   })

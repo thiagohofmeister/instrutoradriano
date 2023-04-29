@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { useMutation, UseMutationOptions, useQueryClient } from 'react-query'
+import { UseMutationOptions, useMutation, useQueryClient } from 'react-query'
 
 import { StudentModel, useStudent } from './useStudent'
 
@@ -31,8 +31,6 @@ export const useStudentSave = (
         console.log('Sucesso ao atualizar aluno')
         return
       }
-
-      console.log('Sucesso ao cadastrar aluno')
 
       options?.onSuccess?.(data, variables, context)
     }

@@ -14,7 +14,6 @@ export const SelectStudent: React.FC<SelectStudentProps> = ({ value, onChange })
   const handlerStudentSelect = useCallback(
     (value: string | number | null) => {
       const student = students?.items.find(student => student.id === value) || null
-      console.log({ student, value })
       onChange(student)
     },
     [students, onChange]
