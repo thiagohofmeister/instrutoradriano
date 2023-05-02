@@ -34,7 +34,7 @@ export default function Page() {
 
     saveSchedule(
       {
-        classInitialDate: new Date(),
+        classInitialDate: date.toJSDate(),
         duration: classOption.duration,
         studentId: student.id!
       },
