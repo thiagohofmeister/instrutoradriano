@@ -8,8 +8,6 @@ export const useUtils = () => {
   }, [])
 
   const formatDate = useCallback((date: Date) => {
-    date.setHours(date.getHours() + 3)
-
     return `${date.toLocaleDateString('pt-br')} ${date.toLocaleTimeString('pt-br', {
       hour: '2-digit',
       minute: '2-digit'
