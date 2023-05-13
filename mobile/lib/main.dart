@@ -1,24 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/home_page.dart';
+import 'package:mobile/screens/calendar_page.dart';
+import 'package:mobile/screens/login_page.dart';
 import 'package:mobile/screens/schedule_page.dart';
 import 'package:mobile/screens/students_page.dart';
+import 'package:mobile/store/schedule_store.dart';
+import 'package:mobile/store/student_store.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  bool isLogged = await hasToken();
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => StudentStore()),
+      ChangeNotifierProvider(create: (_) => ScheduleStore()),
+    ],
+    child: MyApp(isLogged: isLogged),
+  ));
+}
+
+Future<bool> hasToken() async {
+  return true;
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLogged;
+
+  const MyApp({super.key, required this.isLogged});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Instrutor Adriano',
-      initialRoute: '/',
+      initialRoute: isLogged ? 'schedule' : 'login',
       routes: {
-        '/': (context) => const HomePage(),
-        '/students': (context) => const StudentsPage(),
-        '/schedule': (context) => const SchedulePage(),
+        'login': (context) => const LoginPage(),
+        'calendar': (context) => const CalendarPage(),
+        'students_list': (context) => const StudentsPage(),
+        'schedule': (context) => const SchedulePage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.green,

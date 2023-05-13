@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/models/student.dart';
+import 'package:mobile/components/student_item.dart';
+import 'package:mobile/components/template/nav_drawer.dart';
+import 'package:mobile/store/student_store.dart';
+import 'package:provider/provider.dart';
 
 class StudentsPage extends StatefulWidget {
   const StudentsPage({Key? key}) : super(key: key);
@@ -9,53 +12,61 @@ class StudentsPage extends StatefulWidget {
 }
 
 class _StudentsPageState extends State<StudentsPage> {
-  final TextEditingController _searchController = TextEditingController();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  List<Student> _students = [];
+  Future<void> _fetch({bool isRefetch = true}) async {
+    final dataProvider = Provider.of<StudentStore>(context, listen: false);
+    if (isRefetch) {
+      dataProvider.refetch();
+      return;
+    }
 
-  Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _searchController.clear();
-      _students = students;
-    });
+    dataProvider.initialFetch();
   }
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_onSearchChanged);
-    _students = students;
-  }
-
-  void _onSearchChanged() {
-    setState(() {
-      String query = _searchController.text.toLowerCase();
-      _students = students
-          .where((student) => student.name.toLowerCase().contains(query))
-          .toList();
-    });
+    _fetch(isRefetch: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: TextField(
-        controller: _searchController,
-        decoration: const InputDecoration(hintText: "Pesquisar alunos"),
-      )),
-      body: RefreshIndicator(
-        key: _refreshIndicatorKey,
-        onRefresh: _refresh,
-        child: ListView.builder(
-            itemCount: _students.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                  title: Text(_students[index].name),
-                  subtitle: Text(_students[index].phone));
-            }),
+        title: const Text('Meus alunos'),
+      ),
+      drawer: const NavDrawer(),
+      body: Consumer<StudentStore>(
+        builder: (context, store, child) {
+          if (store.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (store.hasNoData()) {
+            return const Center(
+              child: Text('Você não possui nenhum aluno.'),
+            );
+          }
+
+          return RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: _fetch,
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) =>
+                        StudentItem(student: store.items[index]),
+                    childCount: store.items.length,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

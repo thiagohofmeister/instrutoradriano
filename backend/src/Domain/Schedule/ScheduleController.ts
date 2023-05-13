@@ -21,7 +21,12 @@ export class ScheduleController extends BaseController {
   }
 
   public async post(req: CoreRequest, res: Response, next: NextFunction) {
-    await this.responseHandler(res, next, this.getFacade(req).create(req.body), ResponseTypeEnum.OK)
+    await this.responseHandler(
+      res,
+      next,
+      this.getFacade(req).create(req.body),
+      ResponseTypeEnum.CREATED
+    )
   }
 
   public async getPrice(req: CoreRequest, res: Response, next: NextFunction) {
