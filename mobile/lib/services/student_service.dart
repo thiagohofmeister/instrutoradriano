@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile/models/response_list.dart';
 import 'package:mobile/models/student.dart';
+import 'package:mobile/models/student_create.dart';
 import 'package:mobile/services/service_contract.dart';
 
 class StudentService extends ServiceContract {
@@ -29,5 +30,21 @@ class StudentService extends ServiceContract {
       items: result,
       total: jsonDecode(response.body)['total'],
     );
+  }
+
+  Future<Student> create(StudentCreate body) async {
+    http.Response response = await super.httpClient.post(
+          getUri(resource: resource),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(
+            body.toMap(),
+          ),
+        );
+
+    if (response.statusCode != 201) {
+      throw Exception();
+    }
+
+    return Student.fromMap(jsonDecode(response.body));
   }
 }

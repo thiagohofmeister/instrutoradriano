@@ -25,6 +25,7 @@ class _SchedulePageState extends State<SchedulePage> {
   ClassOption? _selectedClassOption;
   DateTime _selectedDateTime = DateTime.now();
   CalculatePrice? _price;
+  bool isSaving = false;
 
   List<ClassOption> _classOptions = [];
 
@@ -38,12 +39,20 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void toSchedule() {
+    setState(() {
+      isSaving = true;
+    });
+
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Preencha todos os campos'),
+          content: Text('Preencha todos os campos!'),
         ),
       );
+
+      setState(() {
+        isSaving = false;
+      });
 
       return;
     }
@@ -72,151 +81,161 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: AppBar(title: const Text("Agendar aula")),
       drawer: const NavDrawer(),
       body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DropdownButtonFormField(
-                  value: _selectedStudent,
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Selecione o aluno';
-                    }
-
-                    return null;
-                  },
-                  onChanged: (Student? student) {
-                    setState(() {
-                      _selectedStudent = student;
-                      fetchPrice();
-                    });
-                  },
-                  items: Provider.of<StudentStore>(context)
-                      .items
-                      .map((Student student) {
-                    return DropdownMenuItem<Student>(
-                        value: student, child: Text(student.name));
-                  }).toList(),
-                  decoration:
-                      const InputDecoration(labelText: "Selecione o aluno"),
-                ),
-                _selectedStudent != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: StudentData(
-                          student: _selectedStudent!,
-                          hideName: true,
-                        ),
-                      )
-                    : Container(),
-                _price != null && _price!.options.isNotEmpty
-                    ? DropdownButtonFormField(
-                        value: _selectedClassOption?.duration,
+        child: isSaving
+            ? const Padding(
+                padding: EdgeInsets.all(50),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            : Form(
+                key: _formKey,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DropdownButtonFormField(
+                        value: _selectedStudent,
                         validator: (value) {
                           if (value == null) {
-                            return 'Selecione a quantidade de aulas';
+                            return 'Selecione o aluno';
                           }
 
                           return null;
                         },
-                        onChanged: (int? value) {
+                        onChanged: (Student? student) {
                           setState(() {
-                            _selectedClassOption = _price!.options.firstWhere(
-                                (option) => option.duration == value);
+                            _selectedStudent = student;
+                            fetchPrice();
                           });
                         },
-                        items: _price!.options
-                            .map((option) => DropdownMenuItem(
-                                value: option.duration,
-                                child: Text(option.label)))
-                            .toList(),
+                        items: Provider.of<StudentStore>(context)
+                            .items
+                            .map((Student student) {
+                          return DropdownMenuItem<Student>(
+                              value: student, child: Text(student.name));
+                        }).toList(),
                         decoration: const InputDecoration(
-                            labelText: "Escolha a quantidade de aulas"),
-                      )
-                    : Container(),
-                Row(
-                  children: [
-                    RichText(
-                      text: const TextSpan(
-                        text: 'Data da aula:',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
+                            labelText: "Selecione o aluno"),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        DateTime now = DateTime.now();
-                        DatePicker.showDateTimePicker(context,
-                            showTitleActions: true,
-                            minTime: now,
-                            maxTime: DateTime(now.year + 1, now.month, now.day),
-                            onConfirm: (DateTime date) {
-                          setState(() {
-                            _selectedDateTime = date;
-                          });
-                        },
-                            currentTime: _selectedDateTime,
-                            locale: LocaleType.pt);
-                      },
-                      child: Text(
-                          DateFormat('dd/MM/yyyy HH:mm')
-                              .format(_selectedDateTime),
-                          style: const TextStyle(fontSize: 16)),
-                    ),
-                  ],
-                ),
-                _selectedClassOption != null
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      _selectedStudent != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: StudentData(
+                                student: _selectedStudent!,
+                                hideName: true,
+                              ),
+                            )
+                          : Container(),
+                      _price != null && _price!.options.isNotEmpty
+                          ? DropdownButtonFormField(
+                              value: _selectedClassOption?.duration,
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Selecione a quantidade de aulas';
+                                }
+
+                                return null;
+                              },
+                              onChanged: (int? value) {
+                                setState(() {
+                                  _selectedClassOption = _price!.options
+                                      .firstWhere(
+                                          (option) => option.duration == value);
+                                });
+                              },
+                              items: _price!.options
+                                  .map((option) => DropdownMenuItem(
+                                      value: option.duration,
+                                      child: Text(option.label)))
+                                  .toList(),
+                              decoration: const InputDecoration(
+                                  labelText: "Escolha a quantidade de aulas"),
+                            )
+                          : Container(),
+                      Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DataLabel(
-                              label: 'Duração',
-                              info: _selectedClassOption!.getDuration(),
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Data da aula:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DataLabel(
-                              label: 'Valor aula',
-                              info: _selectedClassOption!.getAmount(),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DataLabel(
-                              label: 'Taxa de deslocamento',
-                              info:
-                                  _price!.tax > 0 ? _price!.getTax() : 'Grátis',
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DataLabel(
-                              label: 'Total',
-                              info: _selectedClassOption!.getTotalAmount(),
-                            ),
+                          TextButton(
+                            onPressed: () {
+                              DateTime now = DateTime.now();
+                              DatePicker.showDateTimePicker(context,
+                                  showTitleActions: true,
+                                  minTime: now,
+                                  maxTime: DateTime(
+                                      now.year + 1, now.month, now.day),
+                                  onConfirm: (DateTime date) {
+                                setState(() {
+                                  _selectedDateTime = date;
+                                });
+                              },
+                                  currentTime: _selectedDateTime,
+                                  locale: LocaleType.pt);
+                            },
+                            child: Text(
+                                DateFormat('dd/MM/yyyy HH:mm')
+                                    .format(_selectedDateTime),
+                                style: const TextStyle(fontSize: 16)),
                           ),
                         ],
-                      )
-                    : Container(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: toSchedule,
-                      child: const Text('Agendar'),
-                    ),
+                      ),
+                      _selectedClassOption != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: DataLabel(
+                                    label: 'Duração',
+                                    info: _selectedClassOption!.getDuration(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: DataLabel(
+                                    label: 'Valor aula',
+                                    info: _selectedClassOption!.getAmount(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: DataLabel(
+                                    label: 'Taxa de deslocamento',
+                                    info: _price!.tax > 0
+                                        ? _price!.getTax()
+                                        : 'Grátis',
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: DataLabel(
+                                    label: 'Total',
+                                    info:
+                                        _selectedClassOption!.getTotalAmount(),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Center(
+                          child: ElevatedButton(
+                            onPressed: toSchedule,
+                            child: const Text('Agendar'),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/components/template/data_label.dart';
 import 'package:mobile/models/schedule.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleItem extends StatelessWidget {
   final Schedule schedule;
 
   const ScheduleItem({Key? key, required this.schedule}) : super(key: key);
+
+  Future<void> openMap() async {
+    Uri uri = Uri.parse(
+        'http://maps.google.co.in/maps?q=${schedule.student.address.getFullAddress()}');
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch ${uri.toString()}';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +71,10 @@ class ScheduleItem extends StatelessWidget {
                   info: schedule.getAmount(),
                 ),
               ),
+              ElevatedButton(
+                onPressed: openMap,
+                child: const Text('Ir até o aluno'),
+              )
             ],
           ),
         ),

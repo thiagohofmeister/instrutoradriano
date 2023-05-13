@@ -69,7 +69,11 @@ class _StudentsPageState extends State<StudentsPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, 'create_student').then((_) {
+            _fetch();
+          });
+        },
         child: const Icon(Icons.add),
       ),
     );

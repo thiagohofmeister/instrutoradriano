@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/calendar_page.dart';
+import 'package:mobile/screens/create_student_page.dart';
 import 'package:mobile/screens/login_page.dart';
 import 'package:mobile/screens/schedule_page.dart';
 import 'package:mobile/screens/students_page.dart';
@@ -34,12 +35,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Instrutor Adriano',
-      initialRoute: isLogged ? 'schedule' : 'login',
+      initialRoute: isLogged ? 'calendar' : 'login',
       routes: {
         'login': (context) => const LoginPage(),
         'calendar': (context) => const CalendarPage(),
         'students_list': (context) => const StudentsPage(),
         'schedule': (context) => const SchedulePage(),
+        'create_student': (context) => const CreateStudentPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.green,

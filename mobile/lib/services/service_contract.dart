@@ -3,7 +3,8 @@ import 'package:http_interceptor/http/http.dart';
 
 class ServiceContract {
   http.Client httpClient = InterceptedClient.build(
-      interceptors: [], requestTimeout: const Duration(seconds: 5));
+    interceptors: [],
+  );
 
   String getBaseUrl() {
     return 'http://192.168.68.116:3001';
