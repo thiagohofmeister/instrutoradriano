@@ -10,10 +10,11 @@ class ServiceContract {
     return 'http://192.168.68.116:3001';
   }
 
-  Uri getUri(
-      {required String resource,
-      String? endpoint,
-      Map<String, String>? params}) {
+  Uri getUri({
+    required String resource,
+    String? endpoint,
+    Map<String, String>? params,
+  }) {
     List<String> queryParams = [];
 
     params?.forEach((key, value) => queryParams.add('$key=$value'));
