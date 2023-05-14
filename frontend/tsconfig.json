@@ -1,8 +1,0 @@
-{
-  "extends": "expo/tsconfig.base",
-  "include": ["app/**/*", "index.ts"],
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": false
-  }
-}
