@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/components/dialogs/Search_zipcode_dialog.dart';
+import 'package:mobile/components/dialogs/choose_contact_from_device_dialog.dart';
 import 'package:mobile/models/student_create.dart';
 import 'package:mobile/services/student_service.dart';
 
@@ -55,7 +57,18 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Cadastrar aluno")),
+      appBar: AppBar(
+        title: const Text("Cadastrar aluno"),
+        actions: [
+          MenuItemButton(
+            onPressed: onSave,
+            child: const Text(
+              "Salvar",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
       body: isSaving
           ? const Padding(
               padding: EdgeInsets.all(50),
@@ -77,9 +90,35 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            border: const OutlineInputBorder(),
                             hintText: 'Nome',
+                            suffixIcon: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const ChooseContactFromDeviceDialog();
+                                    },
+                                  ).then(
+                                    (value) {
+                                      if (value != null) {
+                                        _nameController.text =
+                                            (value['name'] as String)
+                                                .replaceAll(
+                                                    RegExp('aluno',
+                                                        caseSensitive: false),
+                                                    '')
+                                                .trim();
+
+                                        _phoneController.text =
+                                            (value['phone'] as String);
+                                      }
+                                    },
+                                  );
+                                },
+                                child: const Icon(Icons.contacts_sharp)),
                           ),
                           controller: _nameController,
                         ),
@@ -109,10 +148,22 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'CEP',
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText: 'CEP',
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return SearchZipcodeDialog(
+                                        zipcodeController: _zipCodeController,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Icon(Icons.search),
+                              )),
                           controller: _zipCodeController,
                         ),
                       ),
@@ -142,10 +193,6 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
                           controller: _complementController,
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: onSave,
-                        child: const Text('Cadastrar'),
-                      )
                     ],
                   ),
                 ),

@@ -21,7 +21,9 @@ class _StudentsPageState extends State<StudentsPage> {
       return;
     }
 
-    dataProvider.initialFetch();
+    if (dataProvider.items.isEmpty) {
+      dataProvider.initialFetch();
+    }
   }
 
   @override

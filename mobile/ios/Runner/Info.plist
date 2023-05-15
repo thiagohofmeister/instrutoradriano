@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+  <key>NSContactsUsageDescription</key>
+  <string>Permissão necessária para acessar a lista de contatos do dispositivo.</string>
+  <key>UIBackgroundModes</key>
+  <array>
+      <string>fetch</string>
+  </array>
 </dict>
 </plist>

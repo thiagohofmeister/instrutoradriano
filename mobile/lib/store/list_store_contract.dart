@@ -4,6 +4,7 @@ import 'package:mobile/store/store_contract.dart';
 abstract class ListStoreContract<Item> extends StoreContract {
   ListStoreContract() : super();
 
+  bool isFirstFetch = true;
   List<Item> items = [];
   int total = 0;
 
@@ -25,6 +26,10 @@ abstract class ListStoreContract<Item> extends StoreContract {
   }
 
   initialFetch({Map<String, String>? params}) async {
+    if (!isFirstFetch) {
+      return;
+    }
+
     _fetch(params: params);
   }
 

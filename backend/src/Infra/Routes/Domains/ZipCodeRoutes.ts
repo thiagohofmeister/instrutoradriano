@@ -8,8 +8,14 @@ export class ZipCodeRoutes extends RouteContract<ZipCodeController> {
     const controller = this.getController()
 
     return [
-      new RouteDto(this.getFullEndpoint('/:zipCode'), MethodEnum.GET, controller.getOneByZipCode),
-      new RouteDto(this.getFullEndpoint('/distance'), MethodEnum.POST, controller.postDistance)
+      new RouteDto(this.getFullEndpoint('/distance'), MethodEnum.POST, controller.postDistance),
+      new RouteDto(this.getFullEndpoint('/states'), MethodEnum.GET, controller.getStates),
+      new RouteDto(
+        this.getFullEndpoint('/address'),
+        MethodEnum.POST,
+        controller.getZipCodeByAddress
+      ),
+      new RouteDto(this.getFullEndpoint('/:zipCode'), MethodEnum.GET, controller.getOneByZipCode)
     ]
   }
 }

@@ -81,7 +81,8 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: AppBar(title: const Text("Agendar aula")),
       drawer: const NavDrawer(),
       body: SingleChildScrollView(
-        child: isSaving
+        child: isSaving ||
+                Provider.of<StudentStore>(context, listen: true).isLoading
             ? const Padding(
                 padding: EdgeInsets.all(50),
                 child: Center(child: CircularProgressIndicator()),
@@ -93,29 +94,37 @@ class _SchedulePageState extends State<SchedulePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DropdownButtonFormField(
-                        value: _selectedStudent,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Selecione o aluno';
-                          }
+                      Consumer<StudentStore>(
+                        builder: (context, store, child) {
+                          return DropdownButtonFormField(
+                            value: _selectedStudent,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Selecione o aluno';
+                              }
 
-                          return null;
+                              return null;
+                            },
+                            onChanged: (Student? student) {
+                              if (student == null) {
+                                return;
+                              }
+
+                              setState(() {
+                                _selectedStudent = student;
+                                fetchPrice();
+                              });
+                            },
+                            items: store.items.map((Student student) {
+                              return DropdownMenuItem<Student>(
+                                  value: student, child: Text(student.name));
+                            }).toList(),
+                            decoration: const InputDecoration(
+                              labelText: "Selecione o aluno",
+                              border: OutlineInputBorder(),
+                            ),
+                          );
                         },
-                        onChanged: (Student? student) {
-                          setState(() {
-                            _selectedStudent = student;
-                            fetchPrice();
-                          });
-                        },
-                        items: Provider.of<StudentStore>(context)
-                            .items
-                            .map((Student student) {
-                          return DropdownMenuItem<Student>(
-                              value: student, child: Text(student.name));
-                        }).toList(),
-                        decoration: const InputDecoration(
-                            labelText: "Selecione o aluno"),
                       ),
                       _selectedStudent != null
                           ? Padding(
@@ -137,6 +146,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                 return null;
                               },
                               onChanged: (int? value) {
+                                if (value == null) {
+                                  return;
+                                }
                                 setState(() {
                                   _selectedClassOption = _price!.options
                                       .firstWhere(
@@ -149,7 +161,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                       child: Text(option.label)))
                                   .toList(),
                               decoration: const InputDecoration(
-                                  labelText: "Escolha a quantidade de aulas"),
+                                labelText: "Escolha a quantidade de aulas",
+                                border: OutlineInputBorder(),
+                              ),
                             )
                           : Container(),
                       Row(
