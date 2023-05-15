@@ -42,10 +42,10 @@ class _SearchZipcodeDialogState extends State<SearchZipcodeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: AlertDialog(
-        title: const Text('Buscar CEP'),
-        content: Column(children: [
+    return AlertDialog(
+      title: const Text('Buscar CEP'),
+      content: SingleChildScrollView(
+        child: Column(children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: DropdownButtonFormField(
