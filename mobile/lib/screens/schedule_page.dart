@@ -28,8 +28,6 @@ class _SchedulePageState extends State<SchedulePage> {
   CalculatePrice? _price;
   bool isSaving = false;
 
-  List<ClassOption> _classOptions = [];
-
   Future<void> fetchPrice() async {
     CalculatePrice price =
         await ScheduleService().getCalculatePrice(_selectedStudent!.id);

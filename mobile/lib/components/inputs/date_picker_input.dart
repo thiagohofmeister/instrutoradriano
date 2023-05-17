@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePickerInput extends StatefulWidget {
-  DateTime date;
+  final DateTime date;
   final String label;
-  Function(DateTime) onChange;
+  final Function(DateTime) onChange;
 
-  DatePickerInput({
+  const DatePickerInput({
     Key? key,
     required this.label,
     required this.date,

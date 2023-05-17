@@ -7,7 +7,9 @@ class ListResponse<T extends Model> {
   const ListResponse({required this.items, required this.total});
 
   factory ListResponse.fromJson(Map<dynamic, dynamic> json) {
-    var list = json['items'] as List;
-    return ListResponse(items: [] as List<T>, total: json['total']);
+    return ListResponse(
+      items: json['items'] as List<T>,
+      total: json['total'],
+    );
   }
 }
