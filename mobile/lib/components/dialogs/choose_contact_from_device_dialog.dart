@@ -13,14 +13,36 @@ class ChooseContactFromDeviceDialog extends StatefulWidget {
 class _ChooseContactFromDeviceDialogState
     extends State<ChooseContactFromDeviceDialog> {
   List<Contact> _contacts = [];
+  bool isLoading = false;
 
   Future<void> _getContacts() async {
+    setState(() {
+      isLoading = true;
+    });
+
     if (await Permission.contacts.request().isGranted) {
       Iterable<Contact> contacts = await ContactsService.getContacts();
       setState(() {
-        _contacts = contacts.toList();
+        _contacts = contacts.map((contact) {
+          contact.displayName = contact.displayName!
+              .replaceAll(RegExp(r'aluno|aluna', caseSensitive: false), '')
+              .trim();
+
+          return contact;
+        }).toList();
+        _contacts.sort(
+          (a, b) {
+            return a.displayName!
+                .toLowerCase()
+                .compareTo(b.displayName!.toLowerCase());
+          },
+        );
       });
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -33,25 +55,29 @@ class _ChooseContactFromDeviceDialogState
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Selecione um contato'),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: ListView.builder(
-          itemCount: _contacts.length,
-          itemBuilder: (BuildContext context, int index) {
-            Contact contact = _contacts[index];
-            return ListTile(
-              title: Text(contact.displayName ?? ''),
-              subtitle: Text(contact.phones?.first.value ?? ''),
-              onTap: () {
-                Navigator.of(context).pop({
-                  'name': contact.displayName ?? '',
-                  'phone': contact.phones?.first.value ?? '',
-                });
-              },
-            );
-          },
-        ),
-      ),
+      content: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                itemCount: _contacts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Contact contact = _contacts[index];
+                  return ListTile(
+                    title: Text(contact.displayName ?? ''),
+                    subtitle: Text(contact.phones?.first.value ?? ''),
+                    onTap: () {
+                      Navigator.of(context).pop({
+                        'name': contact.displayName ?? '',
+                        'phone': contact.phones?.first.value ?? '',
+                      });
+                    },
+                  );
+                },
+              ),
+            ),
     );
   }
 }

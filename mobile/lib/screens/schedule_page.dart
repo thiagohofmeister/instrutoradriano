@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:mobile/components/inputs/date_picker_input.dart';
+import 'package:mobile/components/inputs/time_picker_input.dart';
 import 'package:mobile/components/student_data.dart';
 import 'package:mobile/components/template/data_label.dart';
 import 'package:mobile/components/template/nav_drawer.dart';
@@ -21,6 +21,7 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   final _formKey = GlobalKey<FormState>();
+
   Student? _selectedStudent;
   ClassOption? _selectedClassOption;
   DateTime _selectedDateTime = DateTime.now();
@@ -70,15 +71,41 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<StudentStore>(context, listen: false).initialFetch();
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final Student? studentFromArgs =
+        ModalRoute.of(context)?.settings.arguments as Student?;
+
+    if (studentFromArgs != null) {
+      _selectedStudent = Provider.of<StudentStore>(context, listen: false)
+          .items
+          .firstWhere((i) => i.id == studentFromArgs.id);
+
+      fetchPrice();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Agendar aula")),
+      appBar: AppBar(
+        title: const Text("Agendar aula"),
+        actions: [
+          MenuItemButton(
+            onPressed: toSchedule,
+            child: const Text(
+              "Agendar",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
       drawer: const NavDrawer(),
       body: SingleChildScrollView(
         child: isSaving ||
@@ -136,68 +163,62 @@ class _SchedulePageState extends State<SchedulePage> {
                             )
                           : Container(),
                       _price != null && _price!.options.isNotEmpty
-                          ? DropdownButtonFormField(
-                              value: _selectedClassOption?.duration,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Selecione a quantidade de aulas';
-                                }
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: DropdownButtonFormField(
+                                value: _selectedClassOption?.duration,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Selecione a quantidade de aulas';
+                                  }
 
-                                return null;
-                              },
-                              onChanged: (int? value) {
-                                if (value == null) {
-                                  return;
-                                }
-                                setState(() {
-                                  _selectedClassOption = _price!.options
-                                      .firstWhere(
-                                          (option) => option.duration == value);
-                                });
-                              },
-                              items: _price!.options
-                                  .map((option) => DropdownMenuItem(
-                                      value: option.duration,
-                                      child: Text(option.label)))
-                                  .toList(),
-                              decoration: const InputDecoration(
-                                labelText: "Escolha a quantidade de aulas",
-                                border: OutlineInputBorder(),
+                                  return null;
+                                },
+                                onChanged: (int? value) {
+                                  if (value == null) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _selectedClassOption = _price!.options
+                                        .firstWhere((option) =>
+                                            option.duration == value);
+                                  });
+                                },
+                                items: _price!.options
+                                    .map((option) => DropdownMenuItem(
+                                        value: option.duration,
+                                        child: Text(option.label)))
+                                    .toList(),
+                                decoration: const InputDecoration(
+                                  labelText: "Escolha a quantidade de aulas",
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             )
                           : Container(),
-                      Row(
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Data da aula:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              DateTime now = DateTime.now();
-                              DatePicker.showDateTimePicker(context,
-                                  showTitleActions: true,
-                                  minTime: now,
-                                  maxTime: DateTime(
-                                      now.year + 1, now.month, now.day),
-                                  onConfirm: (DateTime date) {
-                                setState(() {
-                                  _selectedDateTime = date;
-                                });
-                              },
-                                  currentTime: _selectedDateTime,
-                                  locale: LocaleType.pt);
-                            },
-                            child: Text(
-                                DateFormat('dd/MM/yyyy HH:mm')
-                                    .format(_selectedDateTime),
-                                style: const TextStyle(fontSize: 16)),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
+                        child: DatePickerInput(
+                          label: 'Data da aula',
+                          date: _selectedDateTime,
+                          onChange: (DateTime date) {
+                            setState(() {
+                              _selectedDateTime = date;
+                            });
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: TimePickerInput(
+                          label: 'Hora da aula',
+                          date: _selectedDateTime,
+                          onChange: (DateTime date) {
+                            setState(() {
+                              _selectedDateTime = date;
+                            });
+                          },
+                        ),
                       ),
                       _selectedClassOption != null
                           ? Column(
@@ -237,15 +258,6 @@ class _SchedulePageState extends State<SchedulePage> {
                               ],
                             )
                           : Container(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Center(
-                          child: ElevatedButton(
-                            onPressed: toSchedule,
-                            child: const Text('Agendar'),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

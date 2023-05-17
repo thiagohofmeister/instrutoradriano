@@ -105,12 +105,7 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
                                     (value) {
                                       if (value != null) {
                                         _nameController.text =
-                                            (value['name'] as String)
-                                                .replaceAll(
-                                                    RegExp('aluno',
-                                                        caseSensitive: false),
-                                                    '')
-                                                .trim();
+                                            (value['name'] as String);
 
                                         _phoneController.text =
                                             (value['phone'] as String);

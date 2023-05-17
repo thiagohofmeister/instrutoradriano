@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mobile/screens/calendar_page.dart';
 import 'package:mobile/screens/create_student_page.dart';
 import 'package:mobile/screens/login_page.dart';
@@ -43,6 +44,12 @@ class MyApp extends StatelessWidget {
         'schedule': (context) => const SchedulePage(),
         'create_student': (context) => const CreateStudentPage(),
       },
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt'),
+      ],
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),

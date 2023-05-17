@@ -12,9 +12,37 @@ class StudentItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-          child: StudentData(student: student),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+              child: StudentData(student: student),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+              child: Row(
+                children: [
+                  const Text(
+                    'Ações:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed('schedule', arguments: student);
+                    },
+                    icon: const Icon(Icons.schedule),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.call),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

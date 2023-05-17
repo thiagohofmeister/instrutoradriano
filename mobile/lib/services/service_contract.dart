@@ -7,7 +7,7 @@ class ServiceContract {
   );
 
   String getBaseUrl() {
-    return 'http://192.168.68.116:3001';
+    return 'https://instrutoradriano.fly.dev';
   }
 
   Uri getUri({
