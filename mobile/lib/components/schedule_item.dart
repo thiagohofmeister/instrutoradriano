@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:mobile/components/template/data_label.dart';
 import 'package:mobile/models/schedule.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleItem extends StatelessWidget {
   final Schedule schedule;
@@ -9,14 +9,7 @@ class ScheduleItem extends StatelessWidget {
   const ScheduleItem({Key? key, required this.schedule}) : super(key: key);
 
   Future<void> openMap() async {
-    Uri uri = Uri.parse(
-        'http://maps.google.co.in/maps?q=${schedule.student.address.getFullAddress()}');
-
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch ${uri.toString()}';
-    }
+    MapsLauncher.launchQuery(schedule.student.address.getFullAddress());
   }
 
   @override
@@ -67,8 +60,8 @@ class ScheduleItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: DataLabel(
-                  label: 'Preço',
-                  info: schedule.getAmount(),
+                  label: 'Total',
+                  info: schedule.getTotalAmount(),
                 ),
               ),
               ElevatedButton(

@@ -54,6 +54,10 @@ class Schedule {
     return ParseUtils.toMoney(amount);
   }
 
+  String getTotalAmount() {
+    return ParseUtils.toMoney(amount + tax);
+  }
+
   String getTax() {
     return ParseUtils.toMoney(tax);
   }

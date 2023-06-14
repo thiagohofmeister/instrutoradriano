@@ -61,6 +61,10 @@ export class ScheduleRepositoryImpl
       }
     }
 
+    query.order = {
+      classInitialDate: 'asc'
+    }
+
     return query
   }
 }
